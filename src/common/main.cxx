@@ -296,7 +296,7 @@ int main(int ac, char* av[])
     try
     {
       const string& result = theOSystem->createConsole(romnode);
-      if(result != EmptyString)
+      if(result != EmptyString())
         return Cleanup();
 
 #if 0

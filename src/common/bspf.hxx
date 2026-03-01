@@ -120,7 +120,8 @@ std::ostream& operator<< (std::ostream& out, const std::vector<T>& v) {
   return out;
 }
 
-static const string EmptyString;
+// This is so we can return empty string references with creating temporaries
+inline const string& EmptyString() { static const string empty; return empty; }
 
 // This is defined by some systems, but Stella has other uses for it
 #undef PAGE_SIZE
@@ -142,17 +143,17 @@ namespace BSPF
   // CPU architecture type
   // This isn't complete yet, but takes care of all the major platforms
   #if defined(__i386__) || defined(_M_IX86)
-    static const string ARCH = "i386";
+    static constexpr string_view ARCH = "i386";
   #elif defined(__x86_64__) || defined(_WIN64)
-    static const string ARCH = "x86_64";
+    static constexpr string_view ARCH = "x86_64";
   #elif defined(__powerpc__) || defined(__ppc__)
-    static const string ARCH = "ppc";
+    static constexpr string_view ARCH = "ppc";
   #elif defined(__arm__) || defined(__thumb__)
-    static const string ARCH = "arm32";
+    static constexpr string_view ARCH = "arm32";
   #elif defined(__aarch64__)
-    static const string ARCH = "arm64";
+    static constexpr string_view ARCH = "arm64";
   #else
-    static const string ARCH = "NOARCH";
+    static constexpr string_view ARCH = "NOARCH";
   #endif
 
   #if defined(BSPF_WINDOWS) || defined(__WIN32__)
@@ -430,7 +431,7 @@ namespace BSPF
   inline string trim(string_view str)
   {
     const auto first = str.find_first_not_of(' ');
-    return (first == string::npos) ? EmptyString :
+    return (first == string::npos) ? EmptyString() :
             string{str.substr(first, str.find_last_not_of(' ')-first+1)};
   }
 

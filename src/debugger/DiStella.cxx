@@ -1029,7 +1029,7 @@ void DiStella::addEntry(Device::AccessType type)
   if (tag.address) {
     tag.label = myDbg.getLabel(tag.address, true);
     tag.hllabel = true;
-    if (tag.label == EmptyString) {
+    if (tag.label == EmptyString()) {
       if (myDisasmBuf.peek() != ' ')
         getline(myDisasmBuf, tag.label, '\'');
       else if (mySettings.showAddresses && tag.type == Device::CODE) {

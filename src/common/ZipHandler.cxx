@@ -100,7 +100,7 @@ std::tuple<string, size_t> ZipHandler::next()
     else
       return {header->filename, header->uncompressedLength};
   }
-  return {EmptyString, 0};
+  return {EmptyString(), 0};
 }
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -

@@ -186,7 +186,7 @@ bool FSNodeZIP::getChildren(AbstractFSList& myList, ListMode mode) const
     // Only consider entries that start with '_virtualPath'
     // Ignore empty filenames and '__MACOSX' virtual directories
     const auto& [name, size] = myZipHandler->next();
-    if(BSPF::startsWithIgnoreCase(name, "__MACOSX") || name == EmptyString)
+    if(BSPF::startsWithIgnoreCase(name, "__MACOSX") || name == EmptyString())
       continue;
     if(BSPF::startsWithIgnoreCase(name, _virtualPath))
     {

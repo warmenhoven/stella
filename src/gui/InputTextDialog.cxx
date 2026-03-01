@@ -173,7 +173,7 @@ const string& InputTextDialog::getResult(int idx)
   if(static_cast<uInt32>(idx) < myInput.size())
     return myInput[idx]->getText();
   else
-    return EmptyString;
+    return EmptyString();
 }
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -

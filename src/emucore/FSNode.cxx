@@ -49,10 +49,10 @@ void FSNode::setPath(string_view path)
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 FSNode& FSNode::operator/=(string_view path)
 {
-  if (path != EmptyString)
+  if (path != EmptyString())
   {
     string newPath = getPath();
-    if (newPath != EmptyString && newPath[newPath.length()-1] != PATH_SEPARATOR)
+    if (newPath != EmptyString() && newPath[newPath.length()-1] != PATH_SEPARATOR)
       newPath += PATH_SEPARATOR;
     newPath += path;
     setPath(newPath);
@@ -224,7 +224,7 @@ bool FSNode::getChildren(FSList& fslist, ListMode mode,
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 const string& FSNode::getName() const
 {
-  return _realNode ? _realNode->getName() : EmptyString;
+  return _realNode ? _realNode->getName() : EmptyString();
 }
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -237,20 +237,20 @@ void FSNode::setName(string_view name)
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 const string& FSNode::getPath() const
 {
-  return _realNode ? _realNode->getPath() : EmptyString;
+  return _realNode ? _realNode->getPath() : EmptyString();
 }
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 string FSNode::getShortPath() const
 {
-  return _realNode ? _realNode->getShortPath() : EmptyString;
+  return _realNode ? _realNode->getShortPath() : EmptyString();
 }
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 string FSNode::getNameWithExt(string_view ext) const
 {
   if (!_realNode)
-    return EmptyString;
+    return EmptyString();
 
   size_t pos = _realNode->getName().find_last_of("/\\");
   string s = pos == string::npos ? _realNode->getName() :
@@ -266,7 +266,7 @@ string FSNode::getNameWithExt(string_view ext) const
 string FSNode::getPathWithExt(string_view ext) const
 {
   if (!_realNode)
-    return EmptyString;
+    return EmptyString();
 
   string s = _realNode->getPath();
 

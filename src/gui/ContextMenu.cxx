@@ -165,7 +165,7 @@ int ContextMenu::getSelected() const
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 const string& ContextMenu::getSelectedName() const
 {
-  return (_selectedItem >= 0) ? _entries[_selectedItem].first : EmptyString;
+  return (_selectedItem >= 0) ? _entries[_selectedItem].first : EmptyString();
 }
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -

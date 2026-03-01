@@ -230,8 +230,8 @@ class StaticTextWidget : public Widget, public CommandSender
     bool isEditable() const { return _editable; }
 
     void setLink(size_t start = string::npos, int len = 0, bool underline = false);
-    bool setUrl(string_view url = EmptyString, string_view label = EmptyString,
-                string_view placeHolder = EmptyString);
+    bool setUrl(string_view url = EmptyString(), string_view label = EmptyString(),
+                string_view placeHolder = EmptyString());
     const string& getUrl() const { return _url; }
 
   protected:

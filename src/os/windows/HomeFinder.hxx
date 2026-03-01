@@ -39,7 +39,7 @@ class HomeFinder
         char folder_path[MAX_PATH];
         HRESULT const result = SHGetFolderPathA(NULL, CSIDL_APPDATA | CSIDL_FLAG_CREATE,
           NULL, 0, folder_path);
-        ourAppDataPath = (result == S_OK) ? folder_path : EmptyString;
+        ourAppDataPath = (result == S_OK) ? folder_path : EmptyString();
       }
       return ourAppDataPath;
     }
@@ -52,7 +52,7 @@ class HomeFinder
         char folder_path[MAX_PATH];
         HRESULT const result = SHGetFolderPathA(NULL, CSIDL_DESKTOPDIRECTORY | CSIDL_FLAG_CREATE,
           NULL, 0, folder_path);
-        ourDesktopPath = (result == S_OK) ? folder_path : EmptyString;
+        ourDesktopPath = (result == S_OK) ? folder_path : EmptyString();
       }
       return ourDesktopPath;
     }
@@ -65,7 +65,7 @@ class HomeFinder
         char folder_path[MAX_PATH];
         HRESULT const result = SHGetFolderPathA(NULL, CSIDL_MYDOCUMENTS | CSIDL_FLAG_CREATE,
           NULL, 0, folder_path);
-        ourDocumentsPath = (result == S_OK) ? folder_path : EmptyString;
+        ourDocumentsPath = (result == S_OK) ? folder_path : EmptyString();
       }
       return ourDocumentsPath;
     }
@@ -78,7 +78,7 @@ class HomeFinder
         char folder_path[MAX_PATH];
         HRESULT const result = SHGetFolderPathA(NULL, CSIDL_PROFILE | CSIDL_FLAG_CREATE,
           NULL, 0, folder_path);
-        ourHomePath = (result == S_OK) ? folder_path : EmptyString;
+        ourHomePath = (result == S_OK) ? folder_path : EmptyString();
       }
       return ourHomePath;
     }

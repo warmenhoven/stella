@@ -118,7 +118,7 @@ void FileListWidget::setLocation(const FSNode& node, string_view select)
     }
     else
     {
-      const string& displayName = _showFileExtensions ? name : file.getNameWithExt(EmptyString);
+      const string& displayName = _showFileExtensions ? name : file.getNameWithExt(EmptyString());
 
       list.push_back(displayName);
       _iconTypeList.push_back(getIconType(file.getPath()));
@@ -275,7 +275,7 @@ void FileListWidget::reload()
   {
     _selectedFile = _showFileExtensions
       ? selected().getName()
-      : selected().getNameWithExt(EmptyString);
+      : selected().getNameWithExt(EmptyString());
     setLocation(_node, _selectedFile);
   }
 }
@@ -715,7 +715,7 @@ string FileListWidget::getToolTip(const Common::Point& pos) const
   const int idx = getToolTipIndex(pos);
 
   if(idx < 0)
-    return EmptyString;
+    return EmptyString();
 
   if(_includeSubDirs && std::cmp_greater(_dirList.size(), idx))
     return _toolTipText + _dirList[idx];

@@ -352,7 +352,7 @@ class OSystem
 
       @param rom  The file node of the ROM to open (contains path)
 
-      @return  MD5 of the ROM image (if valid), otherwise EmptyString
+      @return  MD5 of the ROM image (if valid), otherwise EmptyString()
     */
     static string getROMMD5(const FSNode& rom);
 
@@ -364,7 +364,7 @@ class OSystem
       @param md5     The MD5sum of the ROM
       @param newrom  Whether this is a new ROM, or a reload of current one
 
-      @return  String indicating any error message (EmptyString for no errors)
+      @return  String indicating any error message (EmptyString() for no errors)
     */
     string createConsole(const FSNode& rom, string_view md5 = "",
                          bool newrom = true);

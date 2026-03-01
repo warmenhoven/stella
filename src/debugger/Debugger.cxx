@@ -835,7 +835,7 @@ const Expression& Debugger::getFunction(string_view name) const
 const string& Debugger::getFunctionDef(string_view name) const
 {
   const auto& iter = myFunctionDefs.find(name);
-  return iter != myFunctionDefs.end() ? iter->second : EmptyString;
+  return iter != myFunctionDefs.end() ? iter->second : EmptyString();
 }
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -

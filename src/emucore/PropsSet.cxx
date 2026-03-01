@@ -167,7 +167,7 @@ void PropertiesSet::loadPerROM(const FSNode& rom, string_view md5)
     props.set(PropType::Cart_MD5, md5);
     toInsert = true;
   }
-  if(toInsert || props.get(PropType::Cart_Name) == EmptyString)
+  if(toInsert || props.get(PropType::Cart_Name) == EmptyString())
   {
     props.set(PropType::Cart_Name, rom.getNameWithExt(""));
     toInsert = true;

@@ -421,10 +421,10 @@ void PlusROM::send()
 
   string id = mySettings.getString("plusroms.id");
 
-  if(id == EmptyString)
+  if(id == EmptyString())
     id = mySettings.getString("plusroms.fixedid");
 
-  if(id != EmptyString)
+  if(id != EmptyString())
   {
     const string nick = mySettings.getString("plusroms.nick");
     myRequest = make_shared<PlusROMRequest>(

@@ -296,7 +296,7 @@ string TiaZoomWidget::getToolTip(const Common::Point& pos) const
   const Common::Point& idx = getToolTipIndex(pos);
 
   if(idx.x < 0)
-    return EmptyString;
+    return EmptyString();
 
   const Int32 i = idx.x + idx.y * instance().console().tia().width();
   const uInt32 startLine = instance().console().tia().startLine();

@@ -43,7 +43,7 @@ class FrameLayoutDetector: public AbstractFrameManager
      */
     FrameLayout detectedLayout(bool detectPal60 = false,
                                bool detectNtsc50 = false,
-                               string_view name = EmptyString) const;
+                               string_view name = EmptyString()) const;
 
     /**
      * Simulate some input to pass a potential title screen.

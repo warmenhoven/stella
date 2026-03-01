@@ -77,9 +77,9 @@ bool FSNodePOSIX::setFlags()
 string FSNodePOSIX::getShortPath() const
 {
   // If the path starts with the home directory, replace it with '~'
-  const string& home = ourHomeDir != nullptr ? ourHomeDir : EmptyString;
+  const string& home = ourHomeDir != nullptr ? ourHomeDir : EmptyString();
 
-  if (home != EmptyString && BSPF::startsWithIgnoreCase(_path, home))
+  if (home != EmptyString() && BSPF::startsWithIgnoreCase(_path, home))
   {
     string path = "~";
     const char* const offset = _path.c_str() + home.size();

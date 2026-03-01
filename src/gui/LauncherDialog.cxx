@@ -416,7 +416,7 @@ const string& LauncherDialog::selectedRom() const
 const string& LauncherDialog::selectedRomMD5()
 {
   if(currentNode().isDirectory() || !Bankswitch::isValidRomName(currentNode()))
-    return EmptyString;
+    return EmptyString();
 
   // Attempt to conserve memory
   if(myMD5List.size() > 500)
@@ -557,7 +557,7 @@ string LauncherDialog::getRomDir()
   const Settings& settings = instance().settings();
   const string& tmpromdir = settings.getString("tmpromdir");
 
-  return tmpromdir != EmptyString ? tmpromdir : settings.getString("romdir");
+  return tmpromdir != EmptyString() ? tmpromdir : settings.getString("romdir");
 }
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -707,7 +707,7 @@ void LauncherDialog::loadPendingRomInfo()
     return;
 
   const string& md5 = selectedRomMD5();
-  if(md5 != EmptyString)
+  if(md5 != EmptyString())
   {
     // The properties for the currently selected ROM
     Properties properties;
@@ -1083,7 +1083,7 @@ void LauncherDialog::handleCommand(CommandSender* sender, int cmd,
     {
       const string& url = myRomInfoWidget->getUrl();
 
-      if(url != EmptyString)
+      if(url != EmptyString())
         MediaFactory::openURL(url);
       break;
     }
@@ -1102,12 +1102,12 @@ void LauncherDialog::loadRom()
   saveConfig();
 
   const string& result = instance().createConsole(currentNode(), selectedRomMD5());
-  if(result == EmptyString)
+  if(result == EmptyString())
   {
     instance().settings().setValue("lastrom", myList->getSelectedString());
 
     // If romdir has never been set, set it now based on the selected rom
-    if(instance().settings().getString("romdir") == EmptyString)
+    if(instance().settings().getString("romdir") == EmptyString())
       instance().settings().setValue("romdir", currentNode().getParent().getShortPath());
   }
   else

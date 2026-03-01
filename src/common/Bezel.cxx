@@ -42,7 +42,7 @@ string Bezel::getName(const string& path, const Properties& props)
   do
   {
     imageName = getName(props, index);
-    if(imageName != EmptyString)
+    if(imageName != EmptyString())
     {
       // Note: JPG does not support transparency
       const string imagePath = path + imageName + ".png";
@@ -142,7 +142,7 @@ bool Bezel::load()
       do
       {
         imageName = getName(index);
-        if(imageName != EmptyString)
+        if(imageName != EmptyString())
         {
           // Note: JPG does not support transparency
           const string imagePath = path + imageName + ".png";

@@ -142,7 +142,7 @@ const string& ListWidget::getSelectedString() const
 {
   return (_selectedItem >= 0 && std::cmp_less(_selectedItem, _list.size()))
     ? _list[_selectedItem]
-    : EmptyString;
+    : EmptyString();
 }
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -

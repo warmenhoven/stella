@@ -210,7 +210,7 @@ string TiaOutputWidget::getToolTip(const Common::Point& pos) const
   const Common::Point& idx = getToolTipIndex(pos);
 
   if(idx.x < 0)
-    return EmptyString;
+    return EmptyString();
 
   const uInt32 startLine = instance().console().tia().startLine();
   const uInt32 height = instance().console().tia().height();

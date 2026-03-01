@@ -98,7 +98,7 @@ class Properties
     */
     const string& get(PropType key) const {
       const auto pos = static_cast<uInt8>(key);
-      return pos < static_cast<uInt8>(PropType::NumTypes) ? myProperties[pos] : EmptyString;
+      return pos < static_cast<uInt8>(PropType::NumTypes) ? myProperties[pos] : EmptyString();
     }
 
     /**

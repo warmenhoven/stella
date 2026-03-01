@@ -445,7 +445,7 @@ string RamWidget::doSearch(string_view str)
   // Finally, show the search results in the list
   showSearchResults();
 
-  return EmptyString;
+  return EmptyString();
 }
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -523,7 +523,7 @@ string RamWidget::doCompare(string_view str)
   // Finally, show the search results in the list
   showSearchResults();
 
-  return EmptyString;
+  return EmptyString();
 }
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -

@@ -83,7 +83,7 @@ string ToggleBitWidget::getToolTip(const Common::Point& pos) const
   const Common::Point& idx = getToolTipIndex(pos);
 
   if(idx.y < 0)
-    return EmptyString;
+    return EmptyString();
 
   string tip = ToggleWidget::getToolTip(pos);
 
