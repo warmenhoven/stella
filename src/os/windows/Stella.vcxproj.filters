@@ -687,9 +687,6 @@
     <ClCompile Include="..\..\common\audio\HighPass.cxx">
       <Filter>Source Files\common\audio</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\emucore\Bankswitch.cxx">
-      <Filter>Source Files\emucore</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\emucore\ControllerDetector.cxx">
       <Filter>Source Files\emucore</Filter>
     </ClCompile>

@@ -367,7 +367,6 @@
 		DC564F7628C11C2B00177588 /* JPGLibrary.cxx in Sources */ = {isa = PBXBuildFile; fileRef = DC564F7428C11C2B00177588 /* JPGLibrary.cxx */; };
 		DC56FCDE14CCCC4900A31CC3 /* MouseControl.cxx in Sources */ = {isa = PBXBuildFile; fileRef = DC56FCDC14CCCC4900A31CC3 /* MouseControl.cxx */; };
 		DC56FCDF14CCCC4900A31CC3 /* MouseControl.hxx in Headers */ = {isa = PBXBuildFile; fileRef = DC56FCDD14CCCC4900A31CC3 /* MouseControl.hxx */; };
-		DC5963132139FA14002736F2 /* Bankswitch.cxx in Sources */ = {isa = PBXBuildFile; fileRef = DC5963112139FA14002736F2 /* Bankswitch.cxx */; };
 		DC5963142139FA14002736F2 /* Bankswitch.hxx in Headers */ = {isa = PBXBuildFile; fileRef = DC5963122139FA14002736F2 /* Bankswitch.hxx */; };
 		DC5AAC281FCB24AB00C420A6 /* EventHandlerConstants.hxx in Headers */ = {isa = PBXBuildFile; fileRef = DC5AAC261FCB24AB00C420A6 /* EventHandlerConstants.hxx */; };
 		DC5AAC291FCB24AB00C420A6 /* FrameBufferConstants.hxx in Headers */ = {isa = PBXBuildFile; fileRef = DC5AAC271FCB24AB00C420A6 /* FrameBufferConstants.hxx */; };
@@ -1254,7 +1253,6 @@
 		DC564F7428C11C2B00177588 /* JPGLibrary.cxx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = JPGLibrary.cxx; sourceTree = "<group>"; };
 		DC56FCDC14CCCC4900A31CC3 /* MouseControl.cxx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MouseControl.cxx; sourceTree = "<group>"; };
 		DC56FCDD14CCCC4900A31CC3 /* MouseControl.hxx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = MouseControl.hxx; sourceTree = "<group>"; };
-		DC5963112139FA14002736F2 /* Bankswitch.cxx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Bankswitch.cxx; sourceTree = "<group>"; };
 		DC5963122139FA14002736F2 /* Bankswitch.hxx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Bankswitch.hxx; sourceTree = "<group>"; };
 		DC5AAC261FCB24AB00C420A6 /* EventHandlerConstants.hxx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = EventHandlerConstants.hxx; sourceTree = "<group>"; };
 		DC5AAC271FCB24AB00C420A6 /* FrameBufferConstants.hxx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = FrameBufferConstants.hxx; sourceTree = "<group>"; };
@@ -2130,7 +2128,6 @@
 				DC487FB50DA5350900E12499 /* AtariVox.hxx */,
 				DC487FB40DA5350900E12499 /* AtariVox.cxx */,
 				DC5963122139FA14002736F2 /* Bankswitch.hxx */,
-				DC5963112139FA14002736F2 /* Bankswitch.cxx */,
 				2DE2DF110627AE07006BEC99 /* Booster.hxx */,
 				2DE2DF100627AE07006BEC99 /* Booster.cxx */,
 				2DE2DF130627AE07006BEC99 /* Cart.hxx */,
@@ -3525,7 +3522,6 @@
 				2D9174FA09BA90380026E9FF /* DebuggerDialog.cxx in Sources */,
 				DCF3A6E91DFC75E3008A8AF3 /* Ball.cxx in Sources */,
 				2D9174FB09BA90380026E9FF /* PromptWidget.cxx in Sources */,
-				DC5963132139FA14002736F2 /* Bankswitch.cxx in Sources */,
 				DC84FC532677C62000E60ADE /* CartARM.cxx in Sources */,
 				DC8573532C10A389007AB2FE /* CartJANE.cxx in Sources */,
 				DCDFF08120B781B0001227C0 /* DispatchResult.cxx in Sources */,

@@ -48,6 +48,8 @@ class Expression
     Expression& operator=(Expression&&) = delete;
 };
 
-static const Expression EmptyExpression;
+inline const Expression& EmptyExpression() {
+  static const Expression empty; return empty;
+}
 
 #endif

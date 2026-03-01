@@ -38,7 +38,6 @@ SOURCES_CXX := \
 	$(CORE_DIR)/common/repository/KeyValueRepositoryJsonFile.cxx \
 	$(CORE_DIR)/common/repository/KeyValueRepositoryPropertyFile.cxx \
 	$(CORE_DIR)/emucore/AtariVox.cxx \
-	$(CORE_DIR)/emucore/Bankswitch.cxx \
 	$(CORE_DIR)/emucore/Booster.cxx \
 	$(CORE_DIR)/emucore/Cart.cxx \
 	$(CORE_DIR)/emucore/CartCreator.cxx \

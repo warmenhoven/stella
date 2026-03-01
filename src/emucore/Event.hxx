@@ -272,28 +272,33 @@ class Event
 
 // Hold controller related events
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+// NOLINTNEXTLINE(bugprone-throwing-static-initialization)
 static const Event::EventSet LeftJoystickEvents = {
   Event::LeftJoystickUp, Event::LeftJoystickDown, Event::LeftJoystickLeft, Event::LeftJoystickRight,
   Event::LeftJoystickFire, Event::LeftJoystickFire5, Event::LeftJoystickFire9,
 };
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+// NOLINTNEXTLINE(bugprone-throwing-static-initialization)
 static const Event::EventSet QTJoystick3Events = {
   Event::QTJoystickThreeUp, Event::QTJoystickThreeDown, Event::QTJoystickThreeLeft, Event::QTJoystickThreeRight,
   Event::QTJoystickThreeFire
 };
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+// NOLINTNEXTLINE(bugprone-throwing-static-initialization)
 static const Event::EventSet RightJoystickEvents = {
   Event::RightJoystickUp, Event::RightJoystickDown, Event::RightJoystickLeft, Event::RightJoystickRight,
   Event::RightJoystickFire, Event::RightJoystickFire5, Event::RightJoystickFire9,
 };
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+// NOLINTNEXTLINE(bugprone-throwing-static-initialization)
 static const Event::EventSet QTJoystick4Events = {
   Event::QTJoystickFourUp, Event::QTJoystickFourDown, Event::QTJoystickFourLeft, Event::QTJoystickFourRight,
   Event::QTJoystickFourFire
 };
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+// NOLINTNEXTLINE(bugprone-throwing-static-initialization)
 static const Event::EventSet LeftPaddlesEvents = {
   Event::LeftPaddleADecrease, Event::LeftPaddleAIncrease, Event::LeftPaddleAAnalog,
   Event::LeftPaddleAFire, Event::LeftPaddleAButton1, Event::LeftPaddleAButton2,
@@ -301,12 +306,14 @@ static const Event::EventSet LeftPaddlesEvents = {
   Event::LeftPaddleBFire,
 };
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+// NOLINTNEXTLINE(bugprone-throwing-static-initialization)
 static const Event::EventSet QTPaddles3Events = {
   // Only fire buttons supported by QuadTari
   Event::QTPaddle3AFire, Event::QTPaddle3BFire
 };
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+// NOLINTNEXTLINE(bugprone-throwing-static-initialization)
 static const Event::EventSet RightPaddlesEvents = {
   Event::RightPaddleADecrease, Event::RightPaddleAIncrease, Event::RightPaddleAAnalog,
   Event::RightPaddleAFire, Event::RightPaddleAButton1, Event::RightPaddleAButton2,
@@ -314,12 +321,14 @@ static const Event::EventSet RightPaddlesEvents = {
   Event::RightPaddleBFire,
 };
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+// NOLINTNEXTLINE(bugprone-throwing-static-initialization)
 static const Event::EventSet QTPaddles4Events = {
   // Only fire buttons supported by QuadTari
   Event::QTPaddle4AFire, Event::QTPaddle4BFire
 };
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+// NOLINTNEXTLINE(bugprone-throwing-static-initialization)
 static const Event::EventSet LeftKeyboardEvents = {
   Event::LeftKeyboard1, Event::LeftKeyboard2, Event::LeftKeyboard3,
   Event::LeftKeyboard4, Event::LeftKeyboard5, Event::LeftKeyboard6,
@@ -328,6 +337,7 @@ static const Event::EventSet LeftKeyboardEvents = {
 };
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+// NOLINTNEXTLINE(bugprone-throwing-static-initialization)
 static const Event::EventSet RightKeyboardEvents = {
   Event::RightKeyboard1, Event::RightKeyboard2, Event::RightKeyboard3,
   Event::RightKeyboard4, Event::RightKeyboard5, Event::RightKeyboard6,
@@ -336,12 +346,14 @@ static const Event::EventSet RightKeyboardEvents = {
 };
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+// NOLINTNEXTLINE(bugprone-throwing-static-initialization)
 static const Event::EventSet LeftDrivingEvents = {
   Event::LeftDrivingAnalog, Event::LeftDrivingCCW, Event::LeftDrivingCW,
   Event::LeftDrivingFire, Event::LeftDrivingButton1, Event::LeftDrivingButton2,
 };
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+// NOLINTNEXTLINE(bugprone-throwing-static-initialization)
 static const Event::EventSet RightDrivingEvents = {
   Event::RightDrivingAnalog, Event::RightDrivingCCW, Event::RightDrivingCW,
   Event::RightDrivingFire, Event::RightDrivingButton1, Event::RightDrivingButton2,

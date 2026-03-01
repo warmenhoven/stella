@@ -182,11 +182,11 @@ class FileListWidget : public StringListWidget
     StellaMod _firstMod{StellaMod::KBDM_NONE};
     string _quickSelectStr;
     uInt64 _quickSelectTime{0};
-    static uInt64 _QUICK_SELECT_DELAY;
+    static inline uInt64 _QUICK_SELECT_DELAY{300};
 
     unique_ptr<ProgressDialog> myProgressDialog;
 
-    static FSNode ourDefaultNode;
+    static inline FSNode ourDefaultNode{"~"};
 
   private:
     // Following constructors and assignment operators not supported

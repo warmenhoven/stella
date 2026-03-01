@@ -74,8 +74,8 @@ class TIADebug : public DebuggerSystem
     uInt8 nusizP1(int newVal = -1);
     uInt8 nusizM0(int newVal = -1);
     uInt8 nusizM1(int newVal = -1);
-    const string& nusizP0String() { return nusizStrings[nusizP0()]; }
-    const string& nusizP1String() { return nusizStrings[nusizP1()]; }
+    const string_view nusizP0String() { return nusizStrings[nusizP0()]; }
+    const string_view nusizP1String() { return nusizStrings[nusizP1()]; }
 
     uInt8 coluP0(int newVal = -1);
     uInt8 coluP1(int newVal = -1);
@@ -206,7 +206,16 @@ class TIADebug : public DebuggerSystem
 
     TIA& myTIA;
 
-    static const std::array<string, 8> nusizStrings;
+    static constexpr std::array<string_view, 8> nusizStrings = {
+      "1 copy              ",
+      "2 copies - close (8)",
+      "2 copies - med (24) ",
+      "3 copies - close (8)",
+      "2 copies - wide (56)",
+      "2x (16) sized player",
+      "3 copies - med (24) ",
+      "4x (32) sized player"
+    };
 
   private:
     // Following constructors and assignment operators not supported

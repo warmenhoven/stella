@@ -828,7 +828,7 @@ bool Debugger::delFunction(string_view name)
 const Expression& Debugger::getFunction(string_view name) const
 {
   const auto& iter = myFunctions.find(name);
-  return iter != myFunctions.end() ? *(iter->second) : EmptyExpression;
+  return iter != myFunctions.end() ? *(iter->second) : EmptyExpression();
 }
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -

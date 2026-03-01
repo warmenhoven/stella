@@ -727,9 +727,3 @@ string FileListWidget::getToolTip(const Common::Point& pos) const
   else
     return _toolTipText;
 }
-
-// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-uInt64 FileListWidget::_QUICK_SELECT_DELAY = 300;
-
-// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-FSNode FileListWidget::ourDefaultNode = FSNode("~");

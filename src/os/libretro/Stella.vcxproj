@@ -177,7 +177,6 @@
     <ClCompile Include="..\..\common\repository\KeyValueRepositoryConfigfile.cxx" />
     <ClCompile Include="..\..\common\tv_filters\AtariNTSC.cxx" />
     <ClCompile Include="..\..\common\tv_filters\NTSCFilter.cxx" />
-    <ClCompile Include="..\..\emucore\Bankswitch.cxx" />
     <ClCompile Include="..\..\emucore\Cart3EPlus.cxx" />
     <ClCompile Include="..\..\emucore\Cart4KSC.cxx" />
     <ClCompile Include="..\..\emucore\CartBF.cxx" />

@@ -678,7 +678,6 @@
     <ClCompile Include="..\..\debugger\TimerMap.cxx">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug-NoDebugger|x64'">true</ExcludedFromBuild>
     </ClCompile>
-    <ClCompile Include="..\..\emucore\Bankswitch.cxx" />
     <ClCompile Include="..\..\emucore\Cart03E0.cxx" />
     <ClCompile Include="..\..\emucore\Cart3EPlus.cxx" />
     <ClCompile Include="..\..\emucore\Cart3EX.cxx" />
