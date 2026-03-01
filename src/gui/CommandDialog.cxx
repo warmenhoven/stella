@@ -118,18 +118,23 @@ CommandDialog::CommandDialog(OSystem& osystem, DialogContainer& parent)
 void CommandDialog::loadConfig()
 {
   // Column 1
-  myColorButton->setLabel(instance().console().switches().tvColor() ? "Color Mode" : "B/W Mode");
-  myLeftDiffButton->setLabel(GUI::LEFT_DIFF + (instance().console().switches().leftDifficultyA() ? " A" : " B"));
-  myRightDiffButton->setLabel(GUI::RIGHT_DIFF + (instance().console().switches().rightDifficultyA() ? " A" : " B"));
+  myColorButton->setLabel(instance().console().switches().tvColor()
+    ? "Color Mode" : "B/W Mode");
+  myLeftDiffButton->setLabel(instance().console().switches().leftDifficultyA()
+    ? GUI::LEFT_DIFF_A : GUI::LEFT_DIFF_B);
+  myRightDiffButton->setLabel(instance().console().switches().rightDifficultyA()
+    ? GUI::RIGHT_DIFF_A : GUI::RIGHT_DIFF_B);
   // Column 2
   updateSlot(instance().state().currentSlot());
-  myTimeMachineButton->setLabel(instance().state().mode() == StateManager::Mode::TimeMachine ?
-                                "Time Machine On" : "No Time Machine");
+  myTimeMachineButton->setLabel(instance().state().mode() == StateManager::Mode::TimeMachine
+    ? "Time Machine On" : "No Time Machine");
   // Column 3
   updateTVFormat();
   updatePalette();
-  myPhosphorButton->setLabel(instance().frameBuffer().tiaSurface().phosphorEnabled() ? "Phosphor On" : "Phosphor Off");
-  mySoundButton->setLabel(instance().audioSettings().enabled() ? "Sound On" : "Sound Off");
+  myPhosphorButton->setLabel(instance().frameBuffer().tiaSurface().phosphorEnabled()
+    ? "Phosphor On" : "Phosphor Off");
+  mySoundButton->setLabel(instance().audioSettings().enabled()
+    ? "Sound On" : "Sound Off");
 }
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -

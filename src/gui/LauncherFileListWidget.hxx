@@ -60,9 +60,9 @@ class LauncherFileListWidget : public FileListWidget
     static bool isPopularDir(string_view name) { return name == popular_name; }
 
   private:
-    static const string user_name;
-    static const string recent_name;
-    static const string popular_name;
+    static constexpr string_view user_name = "Favorites";
+    static constexpr string_view recent_name = "Recently Played";
+    static constexpr string_view popular_name = "Most Popular";
 
     unique_ptr<FavoritesManager> myFavorites;
     bool myInVirtualDir{false};

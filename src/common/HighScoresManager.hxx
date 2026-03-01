@@ -156,20 +156,20 @@ class HighScoresManager
     void saveHighScores(HSM::ScoresData& data) const;
 
   private:
-    static const string VARIATIONS_COUNT;
-    static const string VARIATIONS_ADDRESS;
-    static const string VARIATIONS_BCD;
-    static const string VARIATIONS_ZERO_BASED;
-    static const string SCORE_DIGITS;
-    static const string SCORE_TRAILING_ZEROES;
-    static const string SCORE_BCD;
-    static const string SCORE_INVERTED;
-    static const string SCORE_ADDRESSES;
-    static const string SPECIAL_LABEL;
-    static const string SPECIAL_ADDRESS;
-    static const string SPECIAL_BCD;
-    static const string SPECIAL_ZERO_BASED;
-    static const string NOTES;
+    static constexpr string_view VARIATIONS_COUNT = "variations_count";
+    static constexpr string_view VARIATIONS_ADDRESS = "variations_address";
+    static constexpr string_view VARIATIONS_BCD = "variations_bcd";
+    static constexpr string_view VARIATIONS_ZERO_BASED = "variations_zero_based";
+    static constexpr string_view SCORE_DIGITS = "score_digits";
+    static constexpr string_view SCORE_TRAILING_ZEROES = "score_trailing_zeroes";
+    static constexpr string_view SCORE_BCD = "score_bcd";
+    static constexpr string_view SCORE_INVERTED = "score_inverted";
+    static constexpr string_view SCORE_ADDRESSES = "score_addresses";
+    static constexpr string_view SPECIAL_LABEL = "special_label";
+    static constexpr string_view SPECIAL_ADDRESS = "special_address";
+    static constexpr string_view SPECIAL_BCD = "special_bcd";
+    static constexpr string_view SPECIAL_ZERO_BASED = "special_zero_based";
+    static constexpr string_view NOTES = "notes";
 
     static constexpr uInt32 MAX_VARIATIONS = 256;
 
@@ -183,17 +183,17 @@ class HighScoresManager
     static constexpr bool DEFAULT_SPECIAL_BCD = true;
     static constexpr bool DEFAULT_SPECIAL_ZERO_BASED = false;
 
-    static const string DATA;
-    static const string VERSION;
-    static const string MD5;
-    static const string VARIATION;
-    static const string SCORES;
-    static const string SCORE;
-    static const string SPECIAL;
-    static const string NAME;
-    static const string DATE;
-    static const string PROPCHECK;
-    static const string CHECKSUM;
+    static constexpr string_view DATA = "data";
+    static constexpr string_view VERSION = "version";
+    static constexpr string_view MD5 = "md5";
+    static constexpr string_view VARIATION = "variation";
+    static constexpr string_view SCORES = "scores";
+    static constexpr string_view SCORE = "score";
+    static constexpr string_view SPECIAL = "special";
+    static constexpr string_view NAME = "name";
+    static constexpr string_view DATE = "date";
+    static constexpr string_view PROPCHECK = "propcheck";
+    static constexpr string_view CHECKSUM = "checksum";
 
   private:
     // Retrieve current values from (using given parameters)

@@ -97,11 +97,19 @@ enum class EventMode: uInt8 {
 };
 
 namespace GUI {
-  static const std::string SELECT = "Select";
-  static const std::string LEFT_DIFFICULTY = "Left difficulty";
-  static const std::string RIGHT_DIFFICULTY = "Right difficulty";
-  static const std::string LEFT_DIFF = "Left Diff";
-  static const std::string RIGHT_DIFF = "Right Diff";
+  static constexpr std::string_view SELECT = "Select";
+  static constexpr std::string_view LEFT_DIFFICULTY = "Left difficulty";
+  static constexpr std::string_view LEFT_DIFFICULTY_A = "Left difficulty A";
+  static constexpr std::string_view LEFT_DIFFICULTY_B = "Left difficulty B";
+  static constexpr std::string_view RIGHT_DIFFICULTY = "Right difficulty";
+  static constexpr std::string_view RIGHT_DIFFICULTY_A = "Right difficulty A";
+  static constexpr std::string_view RIGHT_DIFFICULTY_B = "Right difficulty B";
+  static constexpr std::string_view LEFT_DIFF = "Left Diff";
+  static constexpr std::string_view LEFT_DIFF_A = "Left Diff A";
+  static constexpr std::string_view LEFT_DIFF_B = "Left Diff B";
+  static constexpr std::string_view RIGHT_DIFF = "Right Diff";
+  static constexpr std::string_view RIGHT_DIFF_A = "Right Diff A";
+  static constexpr std::string_view RIGHT_DIFF_B = "Right Diff B";
 }  // namespace GUI
 
 #endif // EVENTHANDLER_CONSTANTS_HXX

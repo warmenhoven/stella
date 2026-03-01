@@ -212,7 +212,7 @@ void GameInfoDialog::addConsoleTab()
 
   const int xpos = HBORDER;
   int ypos = VBORDER;
-  const int lwidth = _font.getStringWidth(GUI::RIGHT_DIFFICULTY + " ");
+  const int lwidth = _font.getStringWidth(string{GUI::RIGHT_DIFFICULTY} + " ");
 
   new StaticTextWidget(myTab, _font, xpos, ypos + 1, "TV type");
   myTVTypeGroup = new RadioButtonGroup();

@@ -532,8 +532,3 @@ const FileListWidget::Icon* LauncherFileListWidget::getIcon(int i) const
 
   return smallIcon ? small_icons[iconType] : large_icons[iconType];
 }
-
-// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-const string LauncherFileListWidget::user_name = "Favorites";
-const string LauncherFileListWidget::recent_name = "Recently Played";
-const string LauncherFileListWidget::popular_name = "Most Popular";

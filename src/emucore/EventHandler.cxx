@@ -1743,7 +1743,7 @@ void EventHandler::handleEvent(Event::Type event, Int32 value, bool repeated)
       {
         myEvent.set(Event::ConsoleLeftDiffA, 1);
         myEvent.set(Event::ConsoleLeftDiffB, 0);
-        myOSystem.frameBuffer().showTextMessage(GUI::LEFT_DIFFICULTY + " A");
+        myOSystem.frameBuffer().showTextMessage(GUI::LEFT_DIFFICULTY_A);
         myOSystem.console().switches().update();
       }
       return;
@@ -1752,7 +1752,7 @@ void EventHandler::handleEvent(Event::Type event, Int32 value, bool repeated)
       {
         myEvent.set(Event::ConsoleLeftDiffA, 0);
         myEvent.set(Event::ConsoleLeftDiffB, 1);
-        myOSystem.frameBuffer().showTextMessage(GUI::LEFT_DIFFICULTY + " B");
+        myOSystem.frameBuffer().showTextMessage(GUI::LEFT_DIFFICULTY_B);
         myOSystem.console().switches().update();
       }
       return;
@@ -1763,13 +1763,13 @@ void EventHandler::handleEvent(Event::Type event, Int32 value, bool repeated)
         {
           myEvent.set(Event::ConsoleLeftDiffA, 0);
           myEvent.set(Event::ConsoleLeftDiffB, 1);
-          myOSystem.frameBuffer().showTextMessage(GUI::LEFT_DIFFICULTY + " B");
+          myOSystem.frameBuffer().showTextMessage(GUI::LEFT_DIFFICULTY_B);
         }
         else
         {
           myEvent.set(Event::ConsoleLeftDiffA, 1);
           myEvent.set(Event::ConsoleLeftDiffB, 0);
-          myOSystem.frameBuffer().showTextMessage(GUI::LEFT_DIFFICULTY + " A");
+          myOSystem.frameBuffer().showTextMessage(GUI::LEFT_DIFFICULTY_A);
         }
         myOSystem.console().switches().update();
       }
@@ -1780,7 +1780,7 @@ void EventHandler::handleEvent(Event::Type event, Int32 value, bool repeated)
       {
         myEvent.set(Event::ConsoleRightDiffA, 1);
         myEvent.set(Event::ConsoleRightDiffB, 0);
-        myOSystem.frameBuffer().showTextMessage(GUI::RIGHT_DIFFICULTY + " A");
+        myOSystem.frameBuffer().showTextMessage(GUI::RIGHT_DIFFICULTY_A);
         myOSystem.console().switches().update();
       }
       return;
@@ -1789,7 +1789,7 @@ void EventHandler::handleEvent(Event::Type event, Int32 value, bool repeated)
       {
         myEvent.set(Event::ConsoleRightDiffA, 0);
         myEvent.set(Event::ConsoleRightDiffB, 1);
-        myOSystem.frameBuffer().showTextMessage(GUI::RIGHT_DIFFICULTY + " B");
+        myOSystem.frameBuffer().showTextMessage(GUI::RIGHT_DIFFICULTY_B);
         myOSystem.console().switches().update();
       }
       return;
@@ -1800,13 +1800,13 @@ void EventHandler::handleEvent(Event::Type event, Int32 value, bool repeated)
         {
           myEvent.set(Event::ConsoleRightDiffA, 0);
           myEvent.set(Event::ConsoleRightDiffB, 1);
-          myOSystem.frameBuffer().showTextMessage(GUI::RIGHT_DIFFICULTY + " B");
+          myOSystem.frameBuffer().showTextMessage(GUI::RIGHT_DIFFICULTY_B);
         }
         else
         {
           myEvent.set(Event::ConsoleRightDiffA, 1);
           myEvent.set(Event::ConsoleRightDiffB, 0);
-          myOSystem.frameBuffer().showTextMessage(GUI::RIGHT_DIFFICULTY + " A");
+          myOSystem.frameBuffer().showTextMessage(GUI::RIGHT_DIFFICULTY_A);
         }
         myOSystem.console().switches().update();
       }

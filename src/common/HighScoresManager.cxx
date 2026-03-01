@@ -700,31 +700,3 @@ void HighScoresManager::clearHighScores(ScoresData& data)
     s.date = "";
   }
 }
-
-// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-const string HighScoresManager::VARIATIONS_COUNT = "variations_count";
-const string HighScoresManager::VARIATIONS_ADDRESS = "variations_address";
-const string HighScoresManager::VARIATIONS_BCD = "variations_bcd";
-const string HighScoresManager::VARIATIONS_ZERO_BASED = "variations_zero_based";
-const string HighScoresManager::SCORE_DIGITS = "score_digits";
-const string HighScoresManager::SCORE_TRAILING_ZEROES = "score_trailing_zeroes";
-const string HighScoresManager::SCORE_BCD = "score_bcd";
-const string HighScoresManager::SCORE_INVERTED = "score_inverted";
-const string HighScoresManager::SCORE_ADDRESSES = "score_addresses";
-const string HighScoresManager::SPECIAL_LABEL = "special_label";
-const string HighScoresManager::SPECIAL_ADDRESS = "special_address";
-const string HighScoresManager::SPECIAL_BCD = "special_bcd";
-const string HighScoresManager::SPECIAL_ZERO_BASED = "special_zero_based";
-const string HighScoresManager::NOTES = "notes";
-
-const string HighScoresManager::DATA = "data";
-const string HighScoresManager::VERSION = "version";
-const string HighScoresManager::MD5 = "md5";
-const string HighScoresManager::VARIATION = "variation";
-const string HighScoresManager::SCORES = "scores";
-const string HighScoresManager::SCORE = "score";
-const string HighScoresManager::SPECIAL = "special";
-const string HighScoresManager::NAME = "name";
-const string HighScoresManager::DATE = "date";
-const string HighScoresManager::PROPCHECK = "propcheck";
-const string HighScoresManager::CHECKSUM = "checksum";
