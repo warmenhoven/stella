@@ -186,7 +186,7 @@ class FileListWidget : public StringListWidget
 
     unique_ptr<ProgressDialog> myProgressDialog;
 
-    static inline FSNode ourDefaultNode{"~"};
+    static inline const FSNode ourDefaultNode{"~"};  // NOLINT
 
   private:
     // Following constructors and assignment operators not supported

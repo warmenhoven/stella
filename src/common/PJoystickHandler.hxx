@@ -242,7 +242,10 @@ class PhysicalJoystickHandler
 
     static constexpr int NUM_PORTS = 2;
     static constexpr int NUM_SA_AXIS = 2;
-    static const Event::Type SA_Axis[NUM_PORTS][NUM_SA_AXIS];
+    static constexpr Event::Type SA_Axis[NUM_PORTS][NUM_SA_AXIS] = {
+      { Event::SALeftAxis0Value,  Event::SALeftAxis1Value  },
+      { Event::SARightAxis0Value, Event::SARightAxis1Value }
+    };
 };
 
 #endif

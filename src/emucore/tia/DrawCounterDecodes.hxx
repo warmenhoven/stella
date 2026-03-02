@@ -24,11 +24,14 @@ class DrawCounterDecodes
 {
   public:
 
-    const uInt8* const* playerDecodes() const;
+    const uInt8* const* playerDecodes() const { return myPlayerDecodes; }
 
-    const uInt8* const* missileDecodes() const;
+    const uInt8* const* missileDecodes() const { return myMissileDecodes; }
 
-    static DrawCounterDecodes& get();
+    static DrawCounterDecodes& get() {
+      static DrawCounterDecodes myInstance;
+      return myInstance;
+    }
 
   protected:
 
@@ -43,8 +46,6 @@ class DrawCounterDecodes
     // TJ: 6 scanline pixel arrays, one for each copy pattern
     uInt8 myDecodes0[160]{}, myDecodes1[160]{}, myDecodes2[160]{},
           myDecodes3[160]{}, myDecodes4[160]{}, myDecodes6[160]{};
-
-    static DrawCounterDecodes myInstance;
 
   private:
     DrawCounterDecodes(const DrawCounterDecodes&) = delete;

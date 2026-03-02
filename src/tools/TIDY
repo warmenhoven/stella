@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-run-clang-tidy-21 -header-filter=\(.*\.hxx\) \
+run-clang-tidy-22 -header-filter=\(.*\.hxx\) \
 -checks=*,\
 -abseil*,\
 -altera*,\
@@ -28,6 +28,7 @@ run-clang-tidy-21 -header-filter=\(.*\.hxx\) \
 -cppcoreguidelines-non-private-member-variables-in-classes,\
 -cppcoreguidelines-owning-memory,\
 -cppcoreguidelines-pro-bounds-array-to-pointer-decay,\
+-cppcoreguidelines-pro-bounds-avoid-unchecked-container-access,\
 -cppcoreguidelines-pro-bounds-constant-array-index,\
 -cppcoreguidelines-pro-bounds-pointer-arithmetic,\
 -cppcoreguidelines-pro-type-const-cast,\
@@ -58,9 +59,11 @@ run-clang-tidy-21 -header-filter=\(.*\.hxx\) \
 -llvmlibc-restrict-system-libc-headers,\
 -misc-confusable-identifiers,\
 -misc-include-cleaner,\
+-misc-multiple-inheritance,\
 -misc-no-recursion,\
 -misc-non-private-member-variables-in-classes,\
 -misc-unused-parameters,\
+-misc-override-with-different-visibility,\
 -modernize-avoid-bind,\
 -modernize-avoid-c-arrays,\
 -modernize-pass-by-value,\
@@ -77,6 +80,7 @@ run-clang-tidy-21 -header-filter=\(.*\.hxx\) \
 -readability-function-cognitive-complexity,\
 -readability-identifier-length,\
 -readability-implicit-bool-conversion,\
+-readability-inconsistent-ifelse-braces,\
 -readability-isolate-declaration,\
 -readability-magic-numbers,\
 -readability-math-missing-parentheses,\

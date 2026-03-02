@@ -32,6 +32,7 @@ static constexpr IconDesc iconLargeDesc(19, 20);
 static constexpr IconDesc iconLargeWDesc(32, 20);
 
 // Settings icon
+// NOLINTNEXTLINE(bugprone-throwing-static-initialization)
 static const Icon icon_settings_small(
   iconSmallDesc,
   {
@@ -52,6 +53,7 @@ static const Icon icon_settings_small(
   });
 
 // Up icon
+// NOLINTNEXTLINE(bugprone-throwing-static-initialization)
 static const Icon icon_up_small(
   iconSmallDesc,
   {
@@ -72,6 +74,7 @@ static const Icon icon_up_small(
   });
 
 // Previous icon
+// NOLINTNEXTLINE(bugprone-throwing-static-initialization)
 static const Icon icon_prev_small(
   iconSmallDesc,
   {
@@ -92,6 +95,7 @@ static const Icon icon_prev_small(
   });
 
 // Next icon
+// NOLINTNEXTLINE(bugprone-throwing-static-initialization)
 static const Icon icon_next_small(
   iconSmallDesc,
   {
@@ -112,6 +116,7 @@ static const Icon icon_next_small(
   });
 
 // Home icon
+// NOLINTNEXTLINE(bugprone-throwing-static-initialization)
 static const Icon icon_home_small(
   iconSmallDesc,
   {
@@ -132,6 +137,7 @@ static const Icon icon_home_small(
   });
 
 // Reload icon
+// NOLINTNEXTLINE(bugprone-throwing-static-initialization)
 static const Icon icon_reload_small(
   iconSmallDesc,
   {
@@ -152,6 +158,7 @@ static const Icon icon_reload_small(
   });
 
 // Subdirs icons
+// NOLINTNEXTLINE(bugprone-throwing-static-initialization)
 static const Icon icon_subdirs_small_off(
   iconSmallDesc,
   {
@@ -170,6 +177,7 @@ static const Icon icon_subdirs_small_off(
     0b10000000000001,
     0b11111111111111
   });
+// NOLINTNEXTLINE(bugprone-throwing-static-initialization)
 static const Icon icon_subdirs_small_on(
   iconSmallDesc,
   {
@@ -190,6 +198,7 @@ static const Icon icon_subdirs_small_on(
   });
 
 // random ROM icon
+// NOLINTNEXTLINE(bugprone-throwing-static-initialization)
 static const Icon icon_random_small(
   iconSmallWDesc,
   {
@@ -225,6 +234,7 @@ static const Icon icon_random_small(
   });
 
 // Help icon
+// NOLINTNEXTLINE(bugprone-throwing-static-initialization)
 static const Icon icon_help_small(
   iconSmallDesc,
   {
@@ -246,6 +256,7 @@ static const Icon icon_help_small(
 
 
 // Settings icon
+// NOLINTNEXTLINE(bugprone-throwing-static-initialization)
 static const Icon icon_settings_large(
   iconLargeDesc,
   {
@@ -272,6 +283,7 @@ static const Icon icon_settings_large(
   });
 
 // Up icon
+// NOLINTNEXTLINE(bugprone-throwing-static-initialization)
 static const Icon icon_up_large(
   iconLargeDesc,
   {
@@ -298,6 +310,7 @@ static const Icon icon_up_large(
   });
 
 // Previous icon
+// NOLINTNEXTLINE(bugprone-throwing-static-initialization)
 static const Icon icon_prev_large(
   iconLargeDesc,
   {
@@ -324,6 +337,7 @@ static const Icon icon_prev_large(
   });
 
 // Next icon
+// NOLINTNEXTLINE(bugprone-throwing-static-initialization)
 static const Icon icon_next_large(
   iconLargeDesc,
   {
@@ -350,6 +364,7 @@ static const Icon icon_next_large(
   });
 
 // Home icon
+// NOLINTNEXTLINE(bugprone-throwing-static-initialization)
 static const Icon icon_home_large(
   iconLargeDesc,
   {
@@ -376,6 +391,7 @@ static const Icon icon_home_large(
   });
 
 // Reload icon
+// NOLINTNEXTLINE(bugprone-throwing-static-initialization)
 static const Icon icon_reload_large(
   iconLargeDesc,
   {
@@ -403,6 +419,7 @@ static const Icon icon_reload_large(
 
 
 // Subdirs icons
+// NOLINTNEXTLINE(bugprone-throwing-static-initialization)
 static const Icon icon_subdirs_large_off(
   iconLargeDesc,
   {
@@ -427,6 +444,7 @@ static const Icon icon_subdirs_large_off(
     0b1000000000000000001,
     0b1111111111111111111
   });
+// NOLINTNEXTLINE(bugprone-throwing-static-initialization)
 static const Icon icon_subdirs_large_on(
   iconLargeDesc,
   {
@@ -452,6 +470,7 @@ static const Icon icon_subdirs_large_on(
     0b0000111111111111111
   });
 
+// NOLINTNEXTLINE(bugprone-throwing-static-initialization)
 static const Icon icon_random_large(
   iconLargeWDesc,
   {
@@ -477,6 +496,7 @@ static const Icon icon_random_large(
     0b00000000000000000000000000011000,
   });
 
+// NOLINTNEXTLINE(bugprone-throwing-static-initialization)
 static const Icon icon_help_large(
   iconLargeDesc,
   {

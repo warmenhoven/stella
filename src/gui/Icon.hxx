@@ -34,9 +34,9 @@ struct IconDesc
 class Icon
 {
   public:
-    Icon(IconDesc desc, const uIntArray& bitmap)
+    constexpr Icon(IconDesc desc, const uIntArray& bitmap)
       : myIconDesc{desc}, myBitmap{bitmap} { }
-    Icon(int width, int height, const uIntArray& bitmap)
+    constexpr Icon(int width, int height, const uIntArray& bitmap)
       : Icon(IconDesc(width, height), bitmap) { }
     ~Icon() = default;
 

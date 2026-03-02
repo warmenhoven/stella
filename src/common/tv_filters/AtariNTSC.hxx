@@ -177,13 +177,28 @@ class AtariNTSC
     };
     init_t myImpl;
 
+    // Converted from C-style macros; I don't even pretend to understand the logic here :)
+    static constexpr int PIXEL_OFFSET1( int ntsc, int scaled ) {
+      return (kernel_size / 2 + (ntsc - scaled / rescale_out * rescale_in) +
+        (((scaled + rescale_out * 10) % rescale_out) != 0) +
+        (rescale_out - ((scaled + rescale_out * 10) % rescale_out)) % rescale_out +
+        (kernel_size * 2 * ((scaled + rescale_out * 10) % rescale_out)));
+    }
+    static constexpr float PIXEL_OFFSET2( int ntsc ) {
+      return 1.0F - ((ntsc + 100) & 2);
+    }
+
     struct pixel_info_t
     {
       int offset{0};
       float negate{0.F};
-      std::array<float, 4> kernel{0.F};
+      std::array<float, 4> kernel{};
     };
-    static const std::array<pixel_info_t, alignment_count> atari_ntsc_pixels;
+    // NOLINTNEXTLINE: seems we can't do constexpr on std::array inside another
+    static inline const std::array<pixel_info_t, alignment_count> atari_ntsc_pixels = {{
+      { PIXEL_OFFSET1(-4, -9), PIXEL_OFFSET2(-4), { 1, 1, 1, 1            } },
+      { PIXEL_OFFSET1( 0, -5), PIXEL_OFFSET2( 0), {            1, 1, 1, 1 } }
+    }};
 
     static constexpr std::array<float, 6> default_decoder = {
       0.9563F, 0.6210F, -0.2721F, -0.6474F, -1.1070F, 1.7046F
@@ -245,17 +260,6 @@ class AtariNTSC
 
     static constexpr uInt32 PACK_RGB( int r, int g, int b ) {
       return r << 21 | g << 11 | b << 1;
-    }
-
-    // Converted from C-style macros; I don't even pretend to understand the logic here :)
-    static constexpr int PIXEL_OFFSET1( int ntsc, int scaled ) {
-      return (kernel_size / 2 + (ntsc - scaled / rescale_out * rescale_in) +
-        (((scaled + rescale_out * 10) % rescale_out) != 0) +
-        (rescale_out - ((scaled + rescale_out * 10) % rescale_out)) % rescale_out +
-        (kernel_size * 2 * ((scaled + rescale_out * 10) % rescale_out)));
-    }
-    static constexpr float PIXEL_OFFSET2( int ntsc ) {
-      return 1.0F - ((ntsc + 100) & 2);
     }
 
   #if 0  // DEAD CODE

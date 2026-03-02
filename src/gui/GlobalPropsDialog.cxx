@@ -289,8 +289,3 @@ void GlobalPropsDialog::handleCommand(CommandSender* sender, int cmd,
       break;
   }
 }
-
-// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-const std::array<string, 10> GlobalPropsDialog::ourJoyState = {
-  "U", "D", "L", "R", "F", "U", "D", "L", "R", "F"
-};

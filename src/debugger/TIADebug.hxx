@@ -74,8 +74,8 @@ class TIADebug : public DebuggerSystem
     uInt8 nusizP1(int newVal = -1);
     uInt8 nusizM0(int newVal = -1);
     uInt8 nusizM1(int newVal = -1);
-    const string_view nusizP0String() { return nusizStrings[nusizP0()]; }
-    const string_view nusizP1String() { return nusizStrings[nusizP1()]; }
+    string_view nusizP0String() { return nusizStrings[nusizP0()]; }
+    string_view nusizP1String() { return nusizStrings[nusizP1()]; }
 
     uInt8 coluP0(int newVal = -1);
     uInt8 coluP1(int newVal = -1);

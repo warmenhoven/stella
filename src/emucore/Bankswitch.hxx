@@ -283,7 +283,7 @@ class Bankswitch
     };
     using ExtensionMap = const std::map<string_view, Bankswitch::Type,
                                         TypeComparator>;
-    inline static const ExtensionMap ourExtensions = {
+    inline static const ExtensionMap ourExtensions = {  // NOLINT
       // Normal file extensions that don't actually tell us anything
       // about the bankswitch type to use
       { "a26"   , Bankswitch::Type::_AUTO   },
@@ -379,7 +379,7 @@ class Bankswitch
 
     using NameToTypeMap = const std::map<string_view, Bankswitch::Type,
                                          TypeComparator>;
-    inline static const NameToTypeMap ourNameToTypes = {
+    inline static const NameToTypeMap ourNameToTypes = {  // NOLINT
       { "AUTO"    , Bankswitch::Type::_AUTO   },
       { "03E0"    , Bankswitch::Type::_03E0   },
       { "0840"    , Bankswitch::Type::_0840   },

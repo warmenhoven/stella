@@ -616,6 +616,7 @@ void PhysicalKeyboardHandler::toggleModKeys(bool toggle)
   myOSystem.frameBuffer().showTextMessage(ss.view());
 }
 
+// NOLINTBEGIN(bugprone-throwing-static-initialization)
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 PhysicalKeyboardHandler::EventMappingArray
 PhysicalKeyboardHandler::DefaultCommonMapping = {
@@ -1152,3 +1153,4 @@ PhysicalKeyboardHandler::CompuMateMapping = {
   {Event::CompuMatePlus,          KBDK_EQUALS, KBDM_SHIFT},
   {Event::CompuMateSlash,         KBDK_SLASH}
 };
+// NOLINTEND(bugprone-throwing-static-initialization)

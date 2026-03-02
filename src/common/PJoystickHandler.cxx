@@ -1305,8 +1305,10 @@ void PhysicalJoystickHandler::changeDrivingSensitivity(int direction)
     Driving::MIN_SENSE, Driving::MAX_SENSE);
 }
 
+// NOLINTBEGIN(bugprone-throwing-static-initialization)
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-PhysicalJoystickHandler::EventMappingArray PhysicalJoystickHandler::DefaultLeftJoystickMapping = {
+PhysicalJoystickHandler::EventMappingArray
+PhysicalJoystickHandler::DefaultLeftJoystickMapping = {
   // Left joystick (assume buttons zero..two)
   {Event::LeftJoystickFire,   0},
   {Event::LeftJoystickFire5,  1},
@@ -1326,7 +1328,8 @@ PhysicalJoystickHandler::EventMappingArray PhysicalJoystickHandler::DefaultLeftJ
 };
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-PhysicalJoystickHandler::EventMappingArray PhysicalJoystickHandler::DefaultRightJoystickMapping = {
+PhysicalJoystickHandler::EventMappingArray
+PhysicalJoystickHandler::DefaultRightJoystickMapping = {
   // Right joystick (assume buttons zero..two)
   {Event::RightJoystickFire,    0},
   {Event::RightJoystickFire5,   1},
@@ -1346,7 +1349,8 @@ PhysicalJoystickHandler::EventMappingArray PhysicalJoystickHandler::DefaultRight
 };
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-PhysicalJoystickHandler::EventMappingArray PhysicalJoystickHandler::DefaultLeftPaddlesMapping = {
+PhysicalJoystickHandler::EventMappingArray
+PhysicalJoystickHandler::DefaultLeftPaddlesMapping = {
   {Event::LeftPaddleAAnalog,   JOY_CTRL_NONE, JoyAxis::X, JoyDir::ANALOG},
   // Current code does NOT allow digital and anlog events on the same axis at the same time
   //{Event::LeftPaddleADecrease, JOY_CTRL_NONE, JoyAxis::X, JoyDir::POS},
@@ -1360,7 +1364,8 @@ PhysicalJoystickHandler::EventMappingArray PhysicalJoystickHandler::DefaultLeftP
 };
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-PhysicalJoystickHandler::EventMappingArray PhysicalJoystickHandler::DefaultRightPaddlesMapping = {
+PhysicalJoystickHandler::EventMappingArray
+PhysicalJoystickHandler::DefaultRightPaddlesMapping = {
   {Event::RightPaddleAAnalog,    JOY_CTRL_NONE, JoyAxis::X, JoyDir::ANALOG},
   // Current code does NOT allow digital and anlog events on the same axis at the same
   //{Event::RightPaddleADecrease,  JOY_CTRL_NONE, JoyAxis::X, JoyDir::POS},
@@ -1374,7 +1379,8 @@ PhysicalJoystickHandler::EventMappingArray PhysicalJoystickHandler::DefaultRight
 };
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-PhysicalJoystickHandler::EventMappingArray PhysicalJoystickHandler::DefaultLeftAPaddlesMapping = {
+PhysicalJoystickHandler::EventMappingArray
+PhysicalJoystickHandler::DefaultLeftAPaddlesMapping = {
   {Event::LeftPaddleAAnalog, JOY_CTRL_NONE, JoyAxis::X, JoyDir::ANALOG},
   // Current code does NOT allow digital and anlog events on the same axis at the same time
   //{Event::LeftPaddleADecrease, JOY_CTRL_NONE, JoyAxis::X, JoyDir::POS},
@@ -1382,7 +1388,9 @@ PhysicalJoystickHandler::EventMappingArray PhysicalJoystickHandler::DefaultLeftA
   {Event::LeftPaddleAFire,   0},
 };
 
-PhysicalJoystickHandler::EventMappingArray PhysicalJoystickHandler::DefaultLeftBPaddlesMapping = {
+// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+PhysicalJoystickHandler::EventMappingArray
+PhysicalJoystickHandler::DefaultLeftBPaddlesMapping = {
   {Event::LeftPaddleBAnalog, JOY_CTRL_NONE, JoyAxis::X, JoyDir::ANALOG},
   // Current code does NOT allow digital and anlog events on the same axis at the same
   //{Event::LeftPaddleBDecrease,  JOY_CTRL_NONE, JoyAxis::X, JoyDir::POS},
@@ -1391,7 +1399,8 @@ PhysicalJoystickHandler::EventMappingArray PhysicalJoystickHandler::DefaultLeftB
 };
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-PhysicalJoystickHandler::EventMappingArray PhysicalJoystickHandler::DefaultRightAPaddlesMapping = {
+PhysicalJoystickHandler::EventMappingArray
+PhysicalJoystickHandler::DefaultRightAPaddlesMapping = {
   {Event::RightPaddleAAnalog, JOY_CTRL_NONE, JoyAxis::X, JoyDir::ANALOG},
   // Current code does NOT allow digital and anlog events on the same axis at the same
   //{Event::RightPaddleADecrease,  JOY_CTRL_NONE, JoyAxis::X, JoyDir::POS},
@@ -1399,7 +1408,9 @@ PhysicalJoystickHandler::EventMappingArray PhysicalJoystickHandler::DefaultRight
   {Event::RightPaddleAFire,   0},
 };
 
-PhysicalJoystickHandler::EventMappingArray PhysicalJoystickHandler::DefaultRightBPaddlesMapping = {
+// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+PhysicalJoystickHandler::EventMappingArray
+PhysicalJoystickHandler::DefaultRightBPaddlesMapping = {
   {Event::RightPaddleBAnalog, JOY_CTRL_NONE, JoyAxis::X, JoyDir::ANALOG},
   // Current code does NOT allow digital and anlog events on the same axis at the same
   //{Event::RightPaddleBDecrease,JOY_CTRL_NONE, JoyAxis::X, JoyDir::POS},
@@ -1408,7 +1419,8 @@ PhysicalJoystickHandler::EventMappingArray PhysicalJoystickHandler::DefaultRight
 };
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-PhysicalJoystickHandler::EventMappingArray PhysicalJoystickHandler::DefaultLeftKeyboardMapping = {
+PhysicalJoystickHandler::EventMappingArray
+PhysicalJoystickHandler::DefaultLeftKeyboardMapping = {
   {Event::LeftKeyboard1,      0},
   {Event::LeftKeyboard2,      1},
   {Event::LeftKeyboard3,      2},
@@ -1424,7 +1436,8 @@ PhysicalJoystickHandler::EventMappingArray PhysicalJoystickHandler::DefaultLeftK
 };
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-PhysicalJoystickHandler::EventMappingArray PhysicalJoystickHandler::DefaultRightKeyboardMapping = {
+PhysicalJoystickHandler::EventMappingArray
+PhysicalJoystickHandler::DefaultRightKeyboardMapping = {
   {Event::RightKeyboard1,       0},
   {Event::RightKeyboard2,       1},
   {Event::RightKeyboard3,       2},
@@ -1440,7 +1453,8 @@ PhysicalJoystickHandler::EventMappingArray PhysicalJoystickHandler::DefaultRight
 };
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-PhysicalJoystickHandler::EventMappingArray PhysicalJoystickHandler::DefaultLeftDrivingMapping = {
+PhysicalJoystickHandler::EventMappingArray
+PhysicalJoystickHandler::DefaultLeftDrivingMapping = {
   // Left joystick (assume buttons zero..two)
   {Event::LeftDrivingFire,   0},
   // Left joystick left/right directions
@@ -1451,7 +1465,8 @@ PhysicalJoystickHandler::EventMappingArray PhysicalJoystickHandler::DefaultLeftD
 };
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-PhysicalJoystickHandler::EventMappingArray PhysicalJoystickHandler::DefaultRightDrivingMapping = {
+PhysicalJoystickHandler::EventMappingArray
+PhysicalJoystickHandler::DefaultRightDrivingMapping = {
   // Right joystick (assume buttons zero..two)
   {Event::RightDrivingFire,   0},
   // Right joystick left/right directions
@@ -1499,10 +1514,4 @@ PhysicalJoystickHandler::DefaultMenuMapping = {
   {Event::UIUp,               JOY_CTRL_NONE, JoyAxis::NONE, JoyDir::NONE, 0, JoyHatDir::UP},
   {Event::UIDown,             JOY_CTRL_NONE, JoyAxis::NONE, JoyDir::NONE, 0, JoyHatDir::DOWN},
 };
-
-// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-// Used by the Stelladaptor to send absolute axis values
-const Event::Type PhysicalJoystickHandler::SA_Axis[NUM_PORTS][NUM_SA_AXIS] = {
-  { Event::SALeftAxis0Value,  Event::SALeftAxis1Value  },
-  { Event::SARightAxis0Value, Event::SARightAxis1Value }
-};
+// NOLINTEND(bugprone-throwing-static-initialization)

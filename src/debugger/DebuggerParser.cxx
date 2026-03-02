@@ -2847,6 +2847,7 @@ void DebuggerParser::executeZ()
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 // List of all commands available to the parser
+// NOLINTNEXTLINE(bugprone-throwing-static-initialization)
 DebuggerParser::CommandArray DebuggerParser::commands = { {
   {
     "a",

@@ -520,10 +520,3 @@ void AtariNTSC::genKernel(init_t& impl, float y, float i, float q, uInt32* out)
   }
   while ( --burst_remain );
 }
-
-// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-const std::array<AtariNTSC::pixel_info_t, AtariNTSC::alignment_count>
-AtariNTSC::atari_ntsc_pixels = { {
-  { PIXEL_OFFSET1(-4, -9), PIXEL_OFFSET2(-4), { 1, 1, 1, 1            } },
-  { PIXEL_OFFSET1( 0, -5), PIXEL_OFFSET2( 0), {            1, 1, 1, 1 } }
-} };

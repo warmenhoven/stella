@@ -248,6 +248,7 @@ void Properties::printHeader()
 }
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+// NOLINTNEXTLINE(bugprone-throwing-static-initialization)
 std::array<string, Properties::NUM_PROPS> Properties::ourDefaultProperties =
 {
   "",       // Cart.MD5
@@ -283,6 +284,7 @@ std::array<string, Properties::NUM_PROPS> Properties::ourDefaultProperties =
 };
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+// NOLINTNEXTLINE(bugprone-throwing-static-initialization)
 std::array<string, Properties::NUM_PROPS> Properties::ourPropertyNames =
 {
   "Cart.MD5",

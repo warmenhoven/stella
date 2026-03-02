@@ -2814,6 +2814,7 @@ void EventHandler::exitEmulation(bool checkLauncher)
   #pragma GCC diagnostic ignored "-Wmissing-field-initializers"
 #endif
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+// NOLINTNEXTLINE(bugprone-throwing-static-initialization)
 EventHandler::EmulActionList EventHandler::ourEmulActionList = { {
   { Event::Quit,                    "Quit"                                  },
   { Event::ReloadConsole,           "Reload current ROM/load next game"     },
@@ -3122,6 +3123,7 @@ EventHandler::EmulActionList EventHandler::ourEmulActionList = { {
 } };
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+// NOLINTNEXTLINE(bugprone-throwing-static-initialization)
 EventHandler::MenuActionList EventHandler::ourMenuActionList = { {
   { Event::UIHelp,                  "Open context-sensitive help"           },
 
@@ -3152,6 +3154,7 @@ EventHandler::MenuActionList EventHandler::ourMenuActionList = { {
 
 // Event groups
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+// NOLINTNEXTLINE(bugprone-throwing-static-initialization)
 const Event::EventSet EventHandler::MiscEvents = {
   Event::Quit, Event::ReloadConsole, Event::Fry, Event::StartPauseMode,
   Event::TogglePauseMode, Event::OptionsMenuMode, Event::CmdMenuMode,
@@ -3168,6 +3171,7 @@ const Event::EventSet EventHandler::MiscEvents = {
 };
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+// NOLINTNEXTLINE(bugprone-throwing-static-initialization)
 const Event::EventSet EventHandler::AudioVideoEvents = {
   Event::VolumeDecrease, Event::VolumeIncrease, Event::SoundToggle,
   Event::VidmodeDecrease, Event::VidmodeIncrease,
@@ -3190,6 +3194,7 @@ const Event::EventSet EventHandler::AudioVideoEvents = {
 };
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+// NOLINTNEXTLINE(bugprone-throwing-static-initialization)
 const Event::EventSet EventHandler::StateEvents = {
   Event::NextState, Event::PreviousState, Event::LoadState, Event::SaveState,
   Event::TimeMachineMode, Event::RewindPause, Event::UnwindPause, Event::ToggleTimeMachine,
@@ -3200,6 +3205,7 @@ const Event::EventSet EventHandler::StateEvents = {
 };
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+// NOLINTNEXTLINE(bugprone-throwing-static-initialization)
 const Event::EventSet EventHandler::ConsoleEvents = {
   Event::ConsoleColor, Event::ConsoleBlackWhite,
   Event::ConsoleLeftDiffA, Event::ConsoleLeftDiffB,
@@ -3210,6 +3216,7 @@ const Event::EventSet EventHandler::ConsoleEvents = {
 };
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+// NOLINTNEXTLINE(bugprone-throwing-static-initialization)
 const Event::EventSet EventHandler::JoystickEvents = {
   Event::LeftJoystickUp, Event::LeftJoystickDown, Event::LeftJoystickLeft, Event::LeftJoystickRight,
   Event::LeftJoystickFire, Event::LeftJoystickFire5, Event::LeftJoystickFire9,
@@ -3222,6 +3229,7 @@ const Event::EventSet EventHandler::JoystickEvents = {
 };
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+// NOLINTNEXTLINE(bugprone-throwing-static-initialization)
 const Event::EventSet EventHandler::PaddlesEvents = {
   Event::LeftPaddleADecrease, Event::LeftPaddleAIncrease, Event::LeftPaddleAAnalog,
   Event::LeftPaddleAFire, Event::LeftPaddleAButton1, Event::LeftPaddleAButton2,
@@ -3234,6 +3242,8 @@ const Event::EventSet EventHandler::PaddlesEvents = {
   Event::QTPaddle3AFire, Event::QTPaddle3BFire,Event::QTPaddle4AFire,Event::QTPaddle4BFire,
 };
 
+// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+// NOLINTNEXTLINE(bugprone-throwing-static-initialization)
 const Event::EventSet EventHandler::KeyboardEvents = {
   Event::LeftKeyboard1, Event::LeftKeyboard2, Event::LeftKeyboard3,
   Event::LeftKeyboard4, Event::LeftKeyboard5, Event::LeftKeyboard6,
@@ -3246,6 +3256,8 @@ const Event::EventSet EventHandler::KeyboardEvents = {
   Event::RightKeyboardStar, Event::RightKeyboard0, Event::RightKeyboardPound,
 };
 
+// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+// NOLINTNEXTLINE(bugprone-throwing-static-initialization)
 const Event::EventSet EventHandler::DrivingEvents = {
   Event::LeftDrivingAnalog, Event::LeftDrivingCCW, Event::LeftDrivingCW,
   Event::LeftDrivingFire, Event::LeftDrivingButton1, Event::LeftDrivingButton2,
@@ -3253,6 +3265,8 @@ const Event::EventSet EventHandler::DrivingEvents = {
   Event::RightDrivingFire, Event::RightDrivingButton1, Event::RightDrivingButton2
 };
 
+// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+// NOLINTNEXTLINE(bugprone-throwing-static-initialization)
 const Event::EventSet EventHandler::DevicesEvents = {
   Event::DecreaseDeadzone, Event::IncreaseDeadzone,
   Event::DecAnalogDeadzone, Event::IncAnalogDeadzone,
@@ -3279,6 +3293,7 @@ const Event::EventSet EventHandler::DevicesEvents = {
 };
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+// NOLINTNEXTLINE(bugprone-throwing-static-initialization)
 const Event::EventSet EventHandler::ComboEvents = {
   Event::Combo1, Event::Combo2, Event::Combo3, Event::Combo4,
   Event::Combo5, Event::Combo6, Event::Combo7, Event::Combo8,
@@ -3287,6 +3302,7 @@ const Event::EventSet EventHandler::ComboEvents = {
 };
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+// NOLINTNEXTLINE(bugprone-throwing-static-initialization)
 const Event::EventSet EventHandler::DebugEvents = {
   Event::DebuggerMode, Event::ToggleDeveloperSet,
   Event::ToggleFrameStats,

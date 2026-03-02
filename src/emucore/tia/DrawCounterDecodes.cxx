@@ -18,24 +18,6 @@
 #include "DrawCounterDecodes.hxx"
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-const uInt8* const* DrawCounterDecodes::playerDecodes() const
-{
-  return myPlayerDecodes;
-}
-
-// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-const uInt8* const* DrawCounterDecodes::missileDecodes() const
-{
-  return myMissileDecodes;
-}
-
-// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-DrawCounterDecodes& DrawCounterDecodes::DrawCounterDecodes::get()
-{
-  return myInstance;
-}
-
-// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 DrawCounterDecodes::DrawCounterDecodes()
 {
   uInt8* decodeTables[] = {  // NOLINT (erroneously marked as const)
@@ -74,6 +56,3 @@ DrawCounterDecodes::DrawCounterDecodes()
   myMissileDecodes[6] = myDecodes6;
   myMissileDecodes[7] = myDecodes0;
 }
-
-// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-DrawCounterDecodes DrawCounterDecodes::myInstance;

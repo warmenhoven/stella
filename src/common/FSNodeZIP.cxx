@@ -54,7 +54,7 @@ FSNodeZIP::FSNodeZIP(string_view p)
   // Open file at least once to initialize the virtual file count
   try
   {
-    myZipHandler->open(_zipFile);
+    zipHandler()->open(_zipFile);
   }
   catch(const runtime_error&)
   {
@@ -62,7 +62,7 @@ FSNodeZIP::FSNodeZIP(string_view p)
     //       For now, we just indicate that no ROMs were found
     _error = zip_error::NO_ROMS;
   }
-  _numFiles = myZipHandler->romFiles();
+  _numFiles = zipHandler()->romFiles();
   if(_numFiles == 0)
   {
     _error = zip_error::NO_ROMS;
@@ -79,9 +79,9 @@ FSNodeZIP::FSNodeZIP(string_view p)
   else if(_numFiles == 1)
   {
     bool found = false;
-    while(myZipHandler->hasNext() && !found)
+    while(zipHandler()->hasNext() && !found)
     {
-      const auto& [name, size] = myZipHandler->next();
+      const auto& [name, size] = zipHandler()->next();
       if(Bankswitch::isValidRomName(name))
       {
         _virtualPath = name;
@@ -154,10 +154,10 @@ bool FSNodeZIP::exists() const
     // We need to inspect the actual path, not just the ZIP file itself
     try
     {
-      myZipHandler->open(_zipFile);
-      while(myZipHandler->hasNext())
+      zipHandler()->open(_zipFile);
+      while(zipHandler()->hasNext())
       {
-        const auto& [name, size] = myZipHandler->next();
+        const auto& [name, size] = zipHandler()->next();
         if(BSPF::startsWithIgnoreCase(name, _virtualPath))
           return true;
       }
@@ -180,12 +180,12 @@ bool FSNodeZIP::getChildren(AbstractFSList& myList, ListMode mode) const
     return false;
 
   std::set<string> dirs;
-  myZipHandler->open(_zipFile);
-  while(myZipHandler->hasNext())
+  zipHandler()->open(_zipFile);
+  while(zipHandler()->hasNext())
   {
     // Only consider entries that start with '_virtualPath'
     // Ignore empty filenames and '__MACOSX' virtual directories
-    const auto& [name, size] = myZipHandler->next();
+    const auto& [name, size] = zipHandler()->next();
     if(BSPF::startsWithIgnoreCase(name, "__MACOSX") || name == EmptyString())
       continue;
     if(BSPF::startsWithIgnoreCase(name, _virtualPath))
@@ -225,16 +225,16 @@ size_t FSNodeZIP::read(ByteBuffer& buffer, size_t) const
     default: throw runtime_error("FSNodeZIP::read default case hit");
   }
 
-  myZipHandler->open(_zipFile);
+  zipHandler()->open(_zipFile);
 
   bool found = false;
-  while(myZipHandler->hasNext() && !found)
+  while(zipHandler()->hasNext() && !found)
   {
-    const auto& [name, size] = myZipHandler->next();
+    const auto& [name, size] = zipHandler()->next();
     found = name == _virtualPath;
   }
 
-  return found ? myZipHandler->decompress(buffer) : 0;
+  return found ? zipHandler()->decompress(buffer) : 0;
 }
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -284,8 +284,5 @@ AbstractFSNodePtr FSNodeZIP::getParent() const
 
   return make_unique<FSNodeZIP>(STEM_FOR_ZIP(_path));
 }
-
-// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-unique_ptr<ZipHandler> FSNodeZIP::myZipHandler = make_unique<ZipHandler>();
 
 #endif  // ZIP_SUPPORT

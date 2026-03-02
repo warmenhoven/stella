@@ -58,7 +58,9 @@ class GlobalPropsDialog : public Dialog, public CommandSender
     CheckboxWidget* myHoldReset{nullptr};
     CheckboxWidget* myDebug{nullptr};
 
-    static const std::array<string, 10> ourJoyState;
+    static constexpr std::array<string_view, 10> ourJoyState = {
+      "U", "D", "L", "R", "F", "U", "D", "L", "R", "F"
+    };
 
   private:
     // Following constructors and assignment operators not supported

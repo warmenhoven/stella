@@ -109,7 +109,10 @@ class FSNodeZIP : public AbstractFSNode
     bool _isDirectory{false}, _isFile{false};
 
     // ZipHandler static reference variable responsible for accessing ZIP files
-    static unique_ptr<ZipHandler> myZipHandler;
+    static unique_ptr<ZipHandler>& zipHandler() {
+      static unique_ptr<ZipHandler> z = make_unique<ZipHandler>();
+      return z;
+    }
 };
 
 #endif
