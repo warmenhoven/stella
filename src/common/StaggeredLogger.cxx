@@ -21,6 +21,9 @@
 #include <chrono>
 #include <format>
 #include <limits>
+#if defined(BSPF_MACOS) || defined(MACOS_KEYS)
+  #include <ctime>
+#endif
 
 using namespace std::chrono;
 
@@ -28,10 +31,19 @@ namespace {
   // Returns the current local time formatted as HH:MM:SS.
   string currentTimestamp()
   {
+  #if defined(BSPF_MACOS) || defined(MACOS_KEYS)
+    // FIXME: remove this fallback once Apple's libc++ supports chrono
+    // time zones (no zoned_time/current_zone as of Xcode/Apple clang 21).
+    std::tm now{};
+    const std::time_t t = std::time(nullptr);
+    localtime_r(&t, &now);
+    return std::format("{:02}:{:02}:{:02}", now.tm_hour, now.tm_min, now.tm_sec);
+  #else
     const auto now = std::chrono::floor<std::chrono::seconds>(
         std::chrono::system_clock::now());
     return std::format("{:%H:%M:%S}",
         std::chrono::zoned_time{std::chrono::current_zone(), now});
+  #endif
   }
 }  // namespace
 
