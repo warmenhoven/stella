@@ -18,6 +18,7 @@
 #ifdef IMAGE_SUPPORT
 
 #include <bit>
+#include <chrono>
 #include <fstream>
 
 #include "OSystem.hxx"
@@ -66,10 +67,10 @@ namespace {
   // successive snapshots unique without overwriting earlier ones
   string snapTimestamp()
   {
-    const std::tm t = BSPF::localTime();
-    return std::format("{:04}-{:02}-{:02}_{:02}-{:02}-{:02}",
-        t.tm_year + 1900, t.tm_mon + 1, t.tm_mday,
-        t.tm_hour, t.tm_min, t.tm_sec);
+    const auto now = std::chrono::floor<std::chrono::seconds>(
+        std::chrono::system_clock::now());
+    return std::format("{:%Y-%m-%d_%H-%M-%S}",
+        std::chrono::zoned_time{std::chrono::current_zone(), now});
   }
 }  // namespace
 

@@ -48,7 +48,6 @@ using uInt64 = uint64_t;
 #include <format>
 #include <charconv>
 #include <sstream>
-#include <ctime>
 #include <numbers>
 #include <ranges>
 #include <span>
@@ -496,20 +495,6 @@ namespace BSPF
     std::ranges::replace(result, '/', '_');
     std::ranges::replace(result, '\\', '_');
     return result;
-  }
-
-  // C++11 way to get local time
-  // Equivalent to the C-style localtime() function, but is thread-safe
-  inline std::tm localTime()
-  {
-    const auto currtime = std::time(nullptr);
-    std::tm tm_snapshot{};
-  #if (defined BSPF_WINDOWS || defined __WIN32__) && (!defined __GNUG__ || defined __MINGW32__)
-    std::ignore = localtime_s(&tm_snapshot, &currtime);
-  #else
-    std::ignore = localtime_r(&currtime, &tm_snapshot);
-  #endif
-    return tm_snapshot;
   }
 
   constexpr bool isWhiteSpace(const char c)

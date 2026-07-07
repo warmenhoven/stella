@@ -26,13 +26,12 @@ using namespace std::chrono;
 
 namespace {
   // Returns the current local time formatted as HH:MM:SS.
-  // Uses strftime for broad toolchain compatibility; switch to
-  // std::chrono::zoned_time + std::format once <chrono> TZ support is
-  // universally available.
   string currentTimestamp()
   {
-    const std::tm now = BSPF::localTime();
-    return std::format("{:02}:{:02}:{:02}", now.tm_hour, now.tm_min, now.tm_sec);
+    const auto now = std::chrono::floor<std::chrono::seconds>(
+        std::chrono::system_clock::now());
+    return std::format("{:%H:%M:%S}",
+        std::chrono::zoned_time{std::chrono::current_zone(), now});
   }
 }  // namespace
 

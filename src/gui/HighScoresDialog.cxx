@@ -15,6 +15,8 @@
 // this file, and for a DISCLAIMER OF ALL WARRANTIES.
 //============================================================================
 
+#include <chrono>
+
 #include "OSystem.hxx"
 #include "Console.hxx"
 #include "Launcher.hxx"
@@ -523,12 +525,9 @@ string HighScoresDialog::cartName() const
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 string HighScoresDialog::now()
 {
-  const std::tm t = BSPF::localTime();
+  const auto now = std::chrono::floor<std::chrono::minutes>(
+      std::chrono::system_clock::now());
 
-  return std::format("{:02}-{:02}-{:02} {:02}:{:02}",
-    t.tm_year - 100,
-    t.tm_mon + 1,
-    t.tm_mday,
-    t.tm_hour,
-    t.tm_min);
+  return std::format("{:%y-%m-%d %H:%M}",
+    std::chrono::zoned_time{std::chrono::current_zone(), now});
 }

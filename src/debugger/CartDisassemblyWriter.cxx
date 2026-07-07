@@ -15,6 +15,8 @@
 // this file, and for a DISCLAIMER OF ALL WARRANTIES.
 //============================================================================
 
+#include <chrono>
+
 #include "bspf.hxx"
 #include "Base.hxx"
 #include "Cart.hxx"
@@ -270,10 +272,11 @@ string CartDisassemblyWriter::save(string path)
   cart.lockHotspots();
 
   // Some boilerplate, similar to what DiStella adds
-  const auto timeinfo = BSPF::localTime();
+  const std::chrono::zoned_time timeinfo{std::chrono::current_zone(),
+      std::chrono::floor<std::chrono::seconds>(std::chrono::system_clock::now())};
   std::ostringstream out;
   out << "; Disassembly of " << myCartDebug.myOSystem.romFile().getShortPath() << "\n"
-      << "; Disassembled " << std::put_time(&timeinfo, "%c\n")
+      << "; Disassembled " << std::format("{:%c}", timeinfo) << "\n"
       << "; Using Stella " << STELLA_VERSION << "\n;\n"
       << "; ROM properties name : "
       << myCartDebug.myConsole.properties().get(PropType::Cart_Name) << "\n"
