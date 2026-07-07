@@ -16,10 +16,6 @@
 //============================================================================
 
 #include <chrono>
-#if defined(BSPF_MACOS) || defined(MACOS_KEYS)
-  #include <ctime>
-  #include <iomanip>
-#endif
 
 #include "bspf.hxx"
 #include "Base.hxx"
@@ -276,23 +272,11 @@ string CartDisassemblyWriter::save(string path)
   cart.lockHotspots();
 
   // Some boilerplate, similar to what DiStella adds
-#if defined(BSPF_MACOS) || defined(MACOS_KEYS)
-  // FIXME: remove this fallback once Apple's libc++ supports chrono
-  // time zones (no zoned_time/current_zone as of Xcode/Apple clang 21).
-  std::tm timeinfo{};
-  const std::time_t timeNow = std::time(nullptr);
-  localtime_r(&timeNow, &timeinfo);
-  std::ostringstream timeStr;
-  timeStr << std::put_time(&timeinfo, "%c");
-  const string disassembledOn = timeStr.str();
-#else
-  const string disassembledOn = std::format("{:%c}",
-      std::chrono::zoned_time{std::chrono::current_zone(),
-          std::chrono::floor<std::chrono::seconds>(std::chrono::system_clock::now())});
-#endif
+  const std::chrono::zoned_time timeinfo{std::chrono::current_zone(),
+      std::chrono::floor<std::chrono::seconds>(std::chrono::system_clock::now())};
   std::ostringstream out;
   out << "; Disassembly of " << myCartDebug.myOSystem.romFile().getShortPath() << "\n"
-      << "; Disassembled " << disassembledOn << "\n"
+      << "; Disassembled " << std::format("{:%c}", timeinfo) << "\n"
       << "; Using Stella " << STELLA_VERSION << "\n;\n"
       << "; ROM properties name : "
       << myCartDebug.myConsole.properties().get(PropType::Cart_Name) << "\n"

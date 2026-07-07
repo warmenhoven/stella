@@ -497,25 +497,6 @@ namespace BSPF
     return result;
   }
 
-  // C++11 way to get local time
-  // Equivalent to the C-style localtime() function, but is thread-safe
-  //
-  // Apple's libc++ has no std::chrono time-zone database support (no
-  // zoned_time/current_zone), so this remains the portable fallback for
-  // local-time formatting on macOS; other platforms can use
-  // std::chrono::zoned_time directly.
-  inline std::tm localTime()
-  {
-    const auto currtime = std::time(nullptr);
-    std::tm tm_snapshot{};
-  #if (defined BSPF_WINDOWS || defined __WIN32__) && (!defined __GNUG__ || defined __MINGW32__)
-    std::ignore = localtime_s(&tm_snapshot, &currtime);
-  #else
-    std::ignore = localtime_r(&currtime, &tm_snapshot);
-  #endif
-    return tm_snapshot;
-  }
-
   constexpr bool isWhiteSpace(const char c)
   {
     constexpr string_view spaces{" ,.;:+-*&/\\'"};
