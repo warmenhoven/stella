@@ -20,6 +20,9 @@
 #include <bit>
 #include <chrono>
 #include <fstream>
+#if defined(BSPF_MACOS) || defined(MACOS_KEYS)
+  #include <ctime>
+#endif
 
 #include "OSystem.hxx"
 #include "Console.hxx"
@@ -67,10 +70,21 @@ namespace {
   // successive snapshots unique without overwriting earlier ones
   string snapTimestamp()
   {
+  #if defined(BSPF_MACOS) || defined(MACOS_KEYS)
+    // FIXME: remove this fallback once Apple's libc++ supports chrono
+    // time zones (no zoned_time/current_zone as of Xcode/Apple clang 21).
+    std::tm now{};
+    const std::time_t t = std::time(nullptr);
+    localtime_r(&t, &now);
+    return std::format("{:04}-{:02}-{:02}_{:02}-{:02}-{:02}",
+        now.tm_year + 1900, now.tm_mon + 1, now.tm_mday,
+        now.tm_hour, now.tm_min, now.tm_sec);
+  #else
     const auto now = std::chrono::floor<std::chrono::seconds>(
         std::chrono::system_clock::now());
     return std::format("{:%Y-%m-%d_%H-%M-%S}",
         std::chrono::zoned_time{std::chrono::current_zone(), now});
+  #endif
   }
 }  // namespace
 
