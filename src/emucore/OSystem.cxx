@@ -31,6 +31,7 @@
 #endif
 #ifdef GUI_SUPPORT
   #include "BrowserDialog.hxx"
+  #include "MessageBox.hxx"
   #include "OverlayMenu.hxx"
   #include "Launcher.hxx"
   #include "TimeMachine.hxx"
@@ -56,6 +57,7 @@
 #include "TimerManager.hxx"
 #ifdef GUI_SUPPORT
   #include "HighScoresManager.hxx"
+  #include "FontManager.hxx"
 #endif
 #include "Version.hxx"
 #include "TIA.hxx"
@@ -106,11 +108,12 @@ OSystem::OSystem()
 OSystem::~OSystem()
 {
 #ifdef GUI_SUPPORT
-  // BrowserDialog is a special dialog that is statically allocated
-  // So we need to make sure that it is destroyed in the normal d'tor chain;
-  // not at the very end of program exit, when some objects it requires
-  // have already been destroyed
+  // BrowserDialog/MessageBox are special dialogs that are statically
+  // allocated.  So we need to make sure that they are destroyed in the
+  // normal d'tor chain; not at the very end of program exit, when some
+  // objects they require have already been destroyed
   BrowserDialog::hide();
+  GUI::MessageBox::hide();
 #endif
 }
 
@@ -144,6 +147,12 @@ bool OSystem::initialize(const Settings::Options& options)
     AsciiFold::toAscii(cheatFile().getShortPath()),
 #endif
     AsciiFold::toAscii(paletteFile().getShortPath())));
+
+#ifdef GUI_SUPPORT
+  // The fonts come first, since the framebuffer sizes itself from the
+  // dialog font.  Nothing here touches the video hardware
+  myFontManager = std::make_unique<FontManager>(settings());
+#endif
 
   // NOTE: The framebuffer MUST be created before any other object!!!
   // Get relevant information about the video hardware
@@ -434,6 +443,40 @@ FBInitStatus OSystem::createFrameBuffer()
   }
   return fbstatus;
 }
+
+#ifdef GUI_SUPPORT
+// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+void OSystem::refreshFonts()
+{
+  // Re-resolve every role; the font objects are mutated in place, so nothing
+  // holding a font reference has to be told about the new descriptor
+  myFontManager->loadConfig(settings());
+
+  // ...but every dialog's CACHED font-derived state (widget metrics, layout)
+  // is now stale, and each container knows only about its own dialogs
+  myLauncher->refreshFont();
+  myOverlayMenu->refreshFont();
+  myTimeMachine->refreshFont();
+#ifdef DEBUGGER_SUPPORT
+  // Only exists once a console has been created
+  if(myDebugger)
+    myDebugger->refreshFont();
+#endif
+}
+
+// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+void OSystem::relayoutDialogs()
+{
+  myLauncher->relayout();
+  myOverlayMenu->relayout();
+  myTimeMachine->relayout();
+#ifdef DEBUGGER_SUPPORT
+  // Only exists once a console has been created
+  if(myDebugger)
+    myDebugger->relayout();
+#endif
+}
+#endif
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 void OSystem::createSound()
@@ -1049,6 +1092,12 @@ void OSystem::mainLoop()
       // Render the GUI with 60 Hz in all other modes
       timesliceSeconds = 1. / 60.;
       myFrameBuffer->update();
+    #ifdef DEBUGGER_SUPPORT
+      // While in the debugger, also drive its companion TIA window (if open).
+      // It renders into its own window via a scoped active-FrameBuffer swap.
+      if(myEventHandler->state() == EventHandlerState::DEBUGGER && myDebugger)
+        myDebugger->renderTiaWindow();
+    #endif
     }
 
     const duration<double> timeslice(timesliceSeconds);

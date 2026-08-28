@@ -24,10 +24,12 @@
 #include "FSNode.hxx"
 #include "Settings.hxx"
 #include "DebuggerDialog.hxx"
+#include "TiaWindow.hxx"
 #include "PromptWidget.hxx"
 #include "DebuggerParser.hxx"
 #include "StateManager.hxx"
 #include "RewindManager.hxx"
+#include "TimerManager.hxx"
 
 #include "Console.hxx"
 #include "System.hxx"
@@ -79,7 +81,39 @@ Debugger::Debugger(OSystem& osystem, Console& console)
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Debugger::~Debugger()
 {
-  delete myDialog;  myDialog = nullptr;
+  // The static accessor must not outlive the object it hands out.  Only clear
+  // it if it still refers to us: on a new ROM the replacement debugger is
+  // constructed (claiming the static) before the old one is destroyed
+  if(myStaticDebugger == this)
+    myStaticDebugger = nullptr;
+}
+
+// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+void Debugger::changeFont() const
+{
+  // Re-resolves the fonts and re-fonts every dialog in the application.  Our
+  // own separate Dialogs (the disassembly settings and colour dialogs, the
+  // RAM search box, the right-click menus) are reached because they register
+  // with us, so nothing here has to name them
+  myOSystem.refreshFonts();
+
+  // A larger font can raise the content minimum past the window's current
+  // size (dialogMinSize() reads the just-refreshed dialog, so this must
+  // follow refreshFont()); grow the window to fit, same as the launcher
+  myOSystem.frameBuffer().growWindowTo(dialogMinSize());
+}
+
+// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Common::Size Debugger::dialogMinSize() const
+{
+  // The dialog's layout tree answers this: it accounts for the debugger font,
+  // the proportional TIA band and whatever the current ROM's tabs ask for.  A
+  // floor of one pixel keeps a size a window can actually be given, for the
+  // moment before the dialog exists
+  if(myDialog != nullptr)
+    return myDialog->minSize();
+
+  return Common::Size(1, 1);
 }
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -88,15 +122,19 @@ void Debugger::initialize()
   mySize = myOSystem.settings().getSize("dbg.res");
   const Common::Size& d = myOSystem.frameBuffer().desktopSize(BufferType::Debugger);
 
-  // The debugger dialog is resizable, within certain bounds
-  // We check those bounds now
-  mySize.clamp(static_cast<uInt32>(DebuggerDialog::kSmallFontMinW), d.w,
-               static_cast<uInt32>(DebuggerDialog::kSmallFontMinH), d.h);
+  // Only a laid-out dialog can say how small the window may be -- that is what
+  // its layout tree reports -- so build it at the saved size first, then clamp
+  // to what it asks for.  The dialog reads mySize back the next time it lays out
+  // (from open()), so there is nothing to rebuild here
+  mySize.clamp(FBMinimum::Width, d.w, FBMinimum::Height, d.h);
+
+  myDialog = std::make_unique<DebuggerDialog>(myOSystem, *this,
+                                              mySize.w, mySize.h);
+
+  const Common::Size minSize = dialogMinSize();
+  mySize.clamp(minSize.w, d.w, minSize.h, d.h);
 
   myOSystem.settings().setValue("dbg.res", mySize);
-
-  delete myDialog;  myDialog = nullptr;
-  myDialog = new DebuggerDialog(myOSystem, *this, 0, 0, mySize.w, mySize.h);
 
   myCartDebug->setDebugWidget(myDialog->cartDebug());
 
@@ -120,9 +158,82 @@ void Debugger::detach()
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 FBInitStatus Debugger::initializeVideo()
 {
-  return myOSystem.frameBuffer().createDisplay(
+  const FBInitStatus status = myOSystem.frameBuffer().createDisplay(
     string{STELLA_FULL_TITLE} + ": Debugger mode",
     BufferType::Debugger, mySize);
+
+  // The debugger window may be resized, but not below its usable minimum
+  // (which depends on the configured debugger font size)
+  myOSystem.frameBuffer().setWindowMinSize(dialogMinSize());
+
+  return status;
+}
+
+// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+void Debugger::updateSize()
+{
+  const uInt32 scale = myOSystem.frameBuffer().hidpiScaleFactor();
+  const Common::Rect& r = myOSystem.frameBuffer().imageRect();
+  const Common::Size& d = myOSystem.frameBuffer().desktopSize(BufferType::Debugger);
+  const Common::Size minSize = dialogMinSize();
+
+  mySize = Common::Size(r.w() / scale, r.h() / scale);
+  mySize.clamp(minSize.w, d.w, minSize.h, d.h);
+}
+
+// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+bool Debugger::applyResize()
+{
+  // Throttle to roughly the display rate; see Launcher::applyResize
+  const uInt64 INTERVAL =
+      LiveResize::blocksMainLoop() ? 0 : 1000000 / 60;  // microseconds
+  const uInt64 now = TimerManager::getTicks();
+  if(now - myLastResizeTime < INTERVAL)
+    return false;
+
+  // Nothing to do unless a new size is pending
+  if(!myOSystem.frameBuffer().applyLiveResize())
+    return false;
+
+  myLastResizeTime = now;
+  updateSize();
+  relayout();
+  mySettleCountdown = 15;  // ~frames of idle before the resize is settled
+  return true;
+}
+
+// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+void Debugger::updateTime(uInt64 time)
+{
+  DialogContainer::updateTime(time);
+
+  // The stack that asked to exit the ROM has unwound by now, so the console
+  // can safely be torn down
+  if(myExitRomPending)
+  {
+    myExitRomPending = false;
+    myOSystem.eventHandler().handleEvent(Event::ExitGame);
+    return;
+  }
+
+  // Live re-flow is normally applied straight from the event handler
+  // (applyResize(), which also covers the Windows/macOS modal resize loop).
+  // Here we catch any size the handler's throttle skipped — notably the final
+  // one when the drag stops — and, once idle, persist the settled size
+  if(myOSystem.frameBuffer().applyLiveResize())
+  {
+    updateSize();
+    relayout();
+    mySettleCountdown = 15;
+  }
+  else if(mySettleCountdown > 0)
+  {
+    if(--mySettleCountdown == 0)
+    {
+      myOSystem.frameBuffer().resizeSettled();
+      myOSystem.settings().setValue("dbg.res", mySize);
+    }
+  }
 }
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -170,7 +281,8 @@ void Debugger::quit()
 void Debugger::exit(bool exitrom)
 {
   if(exitrom)
-    myOSystem.eventHandler().handleEvent(Event::ExitGame);
+    // Deferred; see myExitRomPending
+    myExitRomPending = true;
   else
   {
     myOSystem.eventHandler().leaveDebugMode();
@@ -784,6 +896,12 @@ void Debugger::addState(string_view rewindMsg)
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 void Debugger::setStartState()
 {
+  // Request the companion TIA window if the user has enabled it.  Actual
+  // creation is deferred to renderTiaWindow() so it happens once the state is
+  // DEBUGGER (see myTiaWindowPending).
+  if(myOSystem.settings().getBool("dbg.tiawindow"))
+    myTiaWindowPending = true;
+
   // Lock the bus each time the debugger is entered, so we don't disturb anything
   lockSystem();
 
@@ -803,6 +921,10 @@ void Debugger::setStartState()
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 void Debugger::setQuitState()
 {
+  // Hide the companion TIA window (kept alive for a fast re-open)
+  myTiaWindowPending = false;
+  closeTiaWindow();
+
   myDialog->saveConfig();
   saveOldState();
 
@@ -813,6 +935,137 @@ void Debugger::setQuitState()
   // sitting at a breakpoint/trap, this will get us past it.
   // Somehow this feels like a hack to me, but I don't know why
   mySystem->m6502().execute(1);
+}
+
+// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+void Debugger::toggleTiaWindow()
+{
+  if(myTiaWindowOpen)
+    closeTiaWindow();
+  else
+    openTiaWindow();
+}
+
+// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+void Debugger::openTiaWindow()
+{
+  if(myTiaWindowOpen)
+    return;
+
+  applyTiaWindowMode();
+}
+
+// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+void Debugger::applyTiaWindowMode()
+{
+  if(myTiaWindow == nullptr)
+    myTiaWindow = std::make_unique<TiaWindow>(myOSystem);
+
+  // The (single) FrameBuffer owns the secondary window/backend; palette, fonts
+  // and TIASurface are shared with the main window, so nothing can be clobbered.
+  const FBInitStatus status = myOSystem.frameBuffer().openSecondaryWindow(
+    *myTiaWindow, string{STELLA_FULL_TITLE} + ": TIA",
+    BufferType::TiaWindow, myTiaWindow->size(), TiaWindow::minSize());
+
+  myTiaWindowOpen = (status == FBInitStatus::Success);
+}
+
+// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+void Debugger::resizeTiaWindow(int width, int height)
+{
+  if(!myTiaWindowOpen)
+    return;
+
+  // The companion window resizes independently of the debugger's, and re-flows
+  // and presents itself here rather than waiting for the next rendered frame
+  // (during a modal resize loop there isn't one)
+  if(myOSystem.frameBuffer().resizeSecondaryWindow(*myTiaWindow, width, height))
+  {
+    myOSystem.frameBuffer().renderSecondaryWindow(
+      *myTiaWindow, FrameBuffer::UpdateMode::RERENDER);
+
+    // Restart the settle: applying the resize suspended vsync on the companion's
+    // backend, and only settling puts it back
+    myTiaSettleCountdown = 15;  // ~frames of idle before the resize is settled
+  }
+}
+
+// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+void Debugger::rescaleTiaWindow()
+{
+  if(!myTiaWindowOpen)
+    return;
+
+  // createDisplay() applies the scale factor to the (logical) size the window
+  // tracks, so the open path is what puts the new one into effect.  Closing
+  // only hides the window, leaving its backend and surfaces in place
+  // Re-run the open path with the window still shown: it tracks its size in
+  // logical units, and createDisplay() applies the current factor to that.
+  // Hiding it first would be wrong -- a resize applied to a hidden window
+  // does not survive being shown again
+  applyTiaWindowMode();
+}
+
+// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+void Debugger::closeTiaWindow()
+{
+  if(!myTiaWindowOpen)
+    return;
+
+  myOSystem.frameBuffer().closeSecondaryWindow();
+  myTiaWindowOpen = false;
+
+  // Nothing left to tick the countdown, and re-opening restores vsync anyway
+  // (createRenderer() ends any suspension), so don't leave one pending
+  myTiaSettleCountdown = 0;
+}
+
+// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+void Debugger::renderTiaWindow()
+{
+  // Deferred open (now that the state is DEBUGGER, so createDisplay() doesn't
+  // run the emulation-mode/phosphor path against the live console)
+  if(myTiaWindowPending)
+  {
+    myTiaWindowPending = false;
+    openTiaWindow();
+  }
+
+  if(!myTiaWindowOpen)
+    return;
+
+  // Once the countdown reaches zero, run the settle pass.  Driven here rather
+  // than from updateTime(): the companion is not the active overlay, so this is
+  // its only per-frame tick
+  if(myTiaSettleCountdown > 0 && --myTiaSettleCountdown == 0)
+    myOSystem.frameBuffer().settleSecondaryWindow(*myTiaWindow);
+
+  // Render on demand: the companion is presented only when its dialog/widget is
+  // dirty.  That covers user interaction (zoom/pan mark the widget dirty) and
+  // the initial open (Dialog::open() marks it dirty); content changes from
+  // stepping the emulation come in via invalidateTiaWindow().  When nothing is
+  // dirty this neither redraws nor presents, so an idle companion is free.
+  myOSystem.frameBuffer().renderSecondaryWindow(
+    *myTiaWindow, FrameBuffer::UpdateMode::NONE);
+}
+
+// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+void Debugger::invalidateTiaWindow()
+{
+  if(!myTiaWindowOpen)
+    return;
+
+  // loadConfig() cascades to TiaDisplayWidget::loadConfig(), which marks the
+  // widget dirty so renderTiaWindow() redraws it next frame.  It only sets
+  // dirty flags here; the actual draw is deferred (and scoped to the secondary
+  // render target) by renderTiaWindow().
+  myTiaWindow->baseDialog()->loadConfig();
+}
+
+// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+DialogContainer* Debugger::tiaWindowContainer() const
+{
+  return myTiaWindowOpen ? myTiaWindow.get() : nullptr;
 }
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -

@@ -1443,7 +1443,7 @@ void DebuggerParser::executeDump()
     string dumpOut{out.view()};
     string dumpResult{commandResult.view()};
 
-    DebuggerDialog* dlg = debugger.myDialog;
+    DebuggerDialog* dlg = debugger.myDialog.get();
     BrowserDialog::show(dlg, "Save Dump as", path,
                         BrowserDialog::Mode::FileSave,
                         [dlg, outStr = std::move(dumpOut),
@@ -2126,7 +2126,7 @@ void DebuggerParser::executeS()
 // "save"
 void DebuggerParser::executeSave()
 {
-  auto* dlg = debugger.myDialog;
+  auto* dlg = debugger.myDialog.get();
   const string fileName = std::format("{}{}.script", dlg->instance().userDir().getPath(), cartName());
 
   if(argCount && argStrings[0] == "?")
@@ -2153,7 +2153,7 @@ void DebuggerParser::executeSaveAccess()
 {
   if(argCount && argStrings[0] == "?")
   {
-    DebuggerDialog* dlg = debugger.myDialog;
+    DebuggerDialog* dlg = debugger.myDialog.get();
 
     BrowserDialog::show(dlg, "Save Access Counters as",
                         std::format("{}{}.csv", dlg->instance().userDir().getPath(), cartName()),
@@ -2185,7 +2185,7 @@ void DebuggerParser::executeSaveDisassembly()
 {
   if(argCount && argStrings[0] == "?")
   {
-    DebuggerDialog* dlg = debugger.myDialog;
+    DebuggerDialog* dlg = debugger.myDialog.get();
 
     BrowserDialog::show(dlg, "Save Disassembly as",
                         std::format("{}{}.asm", dlg->instance().userDir().getPath(), cartName()),
@@ -2209,7 +2209,7 @@ void DebuggerParser::executeSaveRom()
 {
   if(argCount && argStrings[0] == "?")
   {
-    DebuggerDialog* dlg = debugger.myDialog;
+    DebuggerDialog* dlg = debugger.myDialog.get();
 
     BrowserDialog::show(dlg, "Save ROM as",
                         std::format("{}{}.a26", dlg->instance().userDir().getPath(), cartName()),
@@ -2237,7 +2237,7 @@ void DebuggerParser::executeSaveSes()
 
   if(argCount && argStrings[0] == "?")
   {
-    DebuggerDialog* dlg = debugger.myDialog;
+    DebuggerDialog* dlg = debugger.myDialog.get();
     BrowserDialog::show(dlg, "Save Session as",
                         dlg->instance().userDir().getPath() + filename,
                         BrowserDialog::Mode::FileSave,
