@@ -444,7 +444,7 @@ void LauncherDialog::layout()
   // Filtering row: the filter field absorbs the slack; everything else packs
   // around it.  This row is the widest thing in the dialog, so it is what the
   // window minimum ends up being -- which is why everything in it always fits
-  const auto makeFilterRow = [&]() {
+  const auto makeFilterRow = [&] {
     auto row = std::make_unique<BoxLayout>(Dir::Horizontal, 0, HBORDER, 0);
     row->addAuto(anchoredItem(myReloadButton));
     row->addSpace(LBL_GAP * 2);
@@ -465,7 +465,7 @@ void LauncherDialog::layout()
 
   // Path / navigation row: the bar fills the width, the help button anchors
   // to the right
-  const auto makePathRow = [&]() {
+  const auto makePathRow = [&] {
     auto row = std::make_unique<BoxLayout>(Dir::Horizontal, BTN_GAP, HBORDER, 0);
     row->addStretch(widgetItem(myNavigationBar, MIN_LAUNCHER_CHARS * fontWidth));
     if(myHelpButton)
@@ -476,7 +476,7 @@ void LauncherDialog::layout()
   // Bottom button row (optional): four equal-width buttons
   const bool hasButtonRow = myShowButtons && myStartButton && myGoUpButton
                          && myOptionsButton && myQuitButton;
-  const auto makeButtonRow = [&]() {
+  const auto makeButtonRow = [&] {
     auto row = std::make_unique<BoxLayout>(Dir::Horizontal, Dialog::buttonGap(),
                                            HBORDER, 0);
 #ifndef BSPF_MACOS
@@ -814,15 +814,13 @@ void LauncherDialog::setRomInfoFont(const Common::Size& area)
   for(const FontDesc* font: FontManager::romInfoFonts())
   {
     // only use fonts <= launcher fonts
-    if(Dialog::fontHeight() >= font->height)
-    {
-      if(std::cmp_greater_equal(area.h,
+    if(Dialog::fontHeight() >= font->height
+       && std::cmp_greater_equal(area.h,
             MIN_ROMINFO_ROWS * font->height + 2 + MIN_ROMINFO_LINES * font->height)
-         && std::cmp_greater_equal(area.w, MIN_ROMINFO_CHARS * font->maxwidth))
-      {
-        instance().fonts().changeRomInfoFont(*font);
-        return;
-      }
+       && std::cmp_greater_equal(area.w, MIN_ROMINFO_CHARS * font->maxwidth))
+    {
+      instance().fonts().changeRomInfoFont(*font);
+      return;
     }
   }
   instance().fonts().changeRomInfoFont(FontManager::smallestDesc());
@@ -1058,10 +1056,9 @@ void LauncherDialog::handleKeyDown(StellaKey key, StellaMod mod, bool repeated)
       handled = true;
     }
   }
-  if(!handled)
-    // Required because BrowserDialog does not want raw input
-    if(repeated || !myList->handleKeyDown(key, mod))
-      Dialog::handleKeyDown(key, mod, repeated);
+  // Required because BrowserDialog does not want raw input
+  if(!handled && (repeated || !myList->handleKeyDown(key, mod)))
+    Dialog::handleKeyDown(key, mod, repeated);
 }
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -1370,7 +1367,7 @@ void LauncherDialog::openContextMenu(int x, int y)
   // Format items for menu, aligning all shortcuts to the right
   VariantList varItems;
   auto maxLen = 0UZ;
-  for(auto& item: items)
+  for(const auto& item: items)
     maxLen = std::max(maxLen, item.label.length());
 
   for(auto& item: items)
@@ -1517,11 +1514,11 @@ void LauncherDialog::removeAll(string_view name, const std::function<void()>& ac
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 void LauncherDialog::removeAllPopular()
 {
-  removeAll("Most Popular", [this]() { myList->removeAllPopular(); });
+  removeAll("Most Popular", [this] { myList->removeAllPopular(); });
 }
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 void LauncherDialog::removeAllRecent()
 {
-  removeAll("Recently Played", [this]() { myList->removeAllRecent(); });
+  removeAll("Recently Played", [this] { myList->removeAllRecent(); });
 }

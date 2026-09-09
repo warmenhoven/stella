@@ -130,7 +130,7 @@ Console::Console(OSystem& osystem, unique_ptr<Cartridge>& cart,
       std::format("Phosphor effect automatically {}", enable ? "enabled" : "disabled"));
   #endif
   };
-  myTIA  = std::make_unique<TIA>(*this, [this]() { return timing(); }, myOSystem.settings(), callback);
+  myTIA  = std::make_unique<TIA>(*this, [this] { return timing(); }, myOSystem.settings(), callback);
   myFrameManager = std::make_unique<FrameManager>();
   mySwitches = std::make_unique<Switches>(myEvent, myProperties, myOSystem.settings());
 
@@ -151,7 +151,7 @@ Console::Console(OSystem& osystem, unique_ptr<Cartridge>& cart,
   myRightControl = std::make_unique<Joystick>(Controller::Jack::Right, myEvent, *mySystem);
 
   // Let the cart know how to query for the 'Cartridge.StartBank' property
-  myCart->setStartBankFromPropsFunc([this]() {
+  myCart->setStartBankFromPropsFunc([this] {
     const string_view startbank = myProperties.get(PropType::Cart_StartBank);
     return (startbank.empty() || BSPF::equalsIgnoreCase(startbank, "AUTO"))
         ? -1 : BSPF::stoi(startbank);
@@ -349,7 +349,7 @@ string Console::formatFromFilename() const
 }
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-string Console::formatFromSignature() const
+string_view Console::formatFromSignature() const
 {
   static constexpr std::array<uInt8, 5> PAL60_v1 = { 'P', 'A', 'L', '6', '0' };
   static constexpr std::array<uInt8, 6> PAL60_v2 = { 'P', 'A', 'L', ' ', '6', '0' };
@@ -635,7 +635,7 @@ void Console::cyclePhosphorMode(int direction)
   if(direction)
   {
     mode = static_cast<PhosphorHandler::PhosphorMode>
-      (BSPF::clampw(mode + direction, 0, static_cast<int>(PhosphorHandler::NumTypes - 1)));
+      (BSPF::clampw(mode + direction, 0, PhosphorHandler::NumTypes - 1));
     switch(mode)
     {
       case PhosphorHandler::Always:

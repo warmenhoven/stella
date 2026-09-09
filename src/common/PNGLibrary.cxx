@@ -105,7 +105,7 @@ void PNGLibrary::loadImage(string_view filename, FBSurface& surface,
   if(!in.is_open())
     throw std::runtime_error("No image found");
 
-  const ScopeExit pngGuard{[&]() {
+  const ScopeExit pngGuard{[&] {
     if(png_ptr)
       png_destroy_read_struct(&png_ptr, info_ptr ? &info_ptr : nullptr, nullptr);
   }};
@@ -201,7 +201,7 @@ void PNGLibrary::saveImage(string_view filename, const FBSurface& surface,
   png_structp png_ptr{nullptr};
   png_infop info_ptr{nullptr};
 
-  const ScopeExit pngGuard{[&]() {
+  const ScopeExit pngGuard{[&] {
     if(png_ptr)
       png_destroy_write_struct(&png_ptr, &info_ptr);
   }};
@@ -309,8 +309,8 @@ void PNGLibrary::toggleContinuousSnapshots(bool perFrame)
   }
   else
   {
-    auto msg = std::format("Disabling snapshots, generated {} files",
-                           mySnapCounter / mySnapInterval);
+    const auto msg = std::format("Disabling snapshots, generated {} files",
+                                 mySnapCounter / mySnapInterval);
     myOSystem.frameBuffer().showTextMessage(msg);
     setContinuousSnapInterval(0);
   }
