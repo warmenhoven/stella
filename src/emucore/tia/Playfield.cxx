@@ -60,7 +60,7 @@ void Playfield::pf0(uInt8 value)
   // early return above is an optimization.
   myTIA->flushLineCache();
 
-  myPattern = (myPattern & 0x000FFFF0U) | (value >> 4U);
+  myPattern = (myPattern & 0x000FFFF0U) | static_cast<uInt32>(value >> 4U);
   myPf0 = value >> 4U;
 
   updatePattern();
@@ -75,14 +75,14 @@ void Playfield::pf1(uInt8 value)
   myTIA->flushLineCache();
 
   myPattern = (myPattern & 0x000FF00FU)
-    | ((value & 0x80U) >> 3)
-    | ((value & 0x40U) >> 1)
-    | ((value & 0x20U) << 1)
-    | ((value & 0x10U) << 3)
-    | ((value & 0x08U) << 5)
-    | ((value & 0x04U) << 7)
-    | ((value & 0x02U) << 9)
-    | ((value & 0x01U) << 11);
+    | ((value & 0x80U) >> 3U)
+    | ((value & 0x40U) >> 1U)
+    | ((value & 0x20U) << 1U)
+    | ((value & 0x10U) << 3U)
+    | ((value & 0x08U) << 5U)
+    | ((value & 0x04U) << 7U)
+    | ((value & 0x02U) << 9U)
+    | ((value & 0x01U) << 11U);
 
   myPf1 = value;
   updatePattern();
@@ -96,7 +96,7 @@ void Playfield::pf2(uInt8 value)
   // PF2 byte changed — slotted into the high 8 bits of myPattern.
   myTIA->flushLineCache();
 
-  myPattern = (myPattern & 0x00000FFFU) | (value << 12U);
+  myPattern = (myPattern & 0x00000FFFU) | static_cast<uInt32>(value << 12U);
   myPf2 = value;
 
   updatePattern();

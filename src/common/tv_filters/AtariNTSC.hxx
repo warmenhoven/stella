@@ -116,7 +116,19 @@ class AtariNTSC
       void* rgb_out, uInt32 out_pitch);
 
   private:
+    // Kept signed: rescale_in/rescale_out divide the possibly-negative
+    // ntsc/scaled arguments in PIXEL_OFFSET1 below (signed division), and
+    // kernel_half/kernel_size are compared against plain 'int' loop
+    // counters in AtariNTSC.cxx; unsigned would change either result.
     static constexpr Int32
+      rescale_in      = 8,
+      rescale_out     = 7,
+
+      kernel_half = 16,
+      kernel_size = kernel_half * 2 + 1
+    ;
+
+    static constexpr uInt32
       PIXEL_in_chunk  = 2,   // number of input pixels read per chunk
       PIXEL_out_chunk = 7,   // number of output pixels generated per chunk
       NTSC_black      = 0,   // palette index for black
@@ -125,12 +137,8 @@ class AtariNTSC
       entry_size      = 2 * 14,
       alignment_count = 2,
       burst_count     = 1,
-      rescale_in      = 8,
-      rescale_out     = 7,
 
       burst_size  = entry_size / burst_count,
-      kernel_half = 16,
-      kernel_size = kernel_half * 2 + 1,
 
       rgb_builder = ((1U << 21U) | (1U << 11U) | (1U << 1U)),
       rgb_kernel_size = burst_size / alignment_count,
@@ -180,7 +188,7 @@ class AtariNTSC
         (kernel_size * 2 * ((scaled + rescale_out * 10) % rescale_out)));
     }
     static constexpr float PIXEL_OFFSET2( int ntsc ) {
-      return 1.F - ((ntsc + 100) & 2);
+      return 1.F - ((ntsc + 100) & 2);  // NOLINT(bugprone-signed-bitwise)
     }
 
     struct pixel_info_t
@@ -229,7 +237,7 @@ class AtariNTSC
         kernel0  [(index)       ] + kernel1  [((index)+10)%7+14] +\
         kernelx0 [((index)+7)%14] + kernelx1 [((index)+ 3)%7+14+7];\
       ATARI_NTSC_CLAMP( raw_, 0 );\
-      (rgb_out) = (raw_>>5 & 0x00FF0000)|(raw_>>3 & 0x0000FF00)|(raw_>>1 & 0x000000FF);\
+      (rgb_out) = (raw_>>5U & 0x00FF0000U)|(raw_>>3U & 0x0000FF00U)|(raw_>>1U & 0x000000FFU);\
     }
     // NOLINTEND(cppcoreguidelines-macro-usage)
 
@@ -256,7 +264,7 @@ class AtariNTSC
     }
 
     static constexpr uInt32 PACK_RGB( int r, int g, int b ) {
-      return r << 21 | g << 11 | b << 1;
+      return r << 21 | g << 11 | b << 1;  // NOLINT(bugprone-signed-bitwise)
     }
 
   #if 0  // DEAD CODE
