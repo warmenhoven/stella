@@ -373,10 +373,10 @@ string CartDisassemblyWriter::save(string path)
   bool addrUsed = false;
   for(uInt16 addr = 0x00; addr <= 0x0F; ++addr)
     addrUsed = addrUsed || myCartDebug.myReserved.TIARead[addr]
-      || (myCartDebug.mySystem.getAccessFlags(addr) & Device::WRITE);
+      || Bitmask::Enum{myCartDebug.mySystem.getAccessFlags(addr)}.any_of(Device::WRITE);
   for(uInt16 addr = 0x00; addr <= 0x3F; ++addr)
     addrUsed = addrUsed || myCartDebug.myReserved.TIAWrite[addr]
-      || (myCartDebug.mySystem.getAccessFlags(addr) & Device::DATA);
+      || Bitmask::Enum{myCartDebug.mySystem.getAccessFlags(addr)}.any_of(Device::DATA);
   for(uInt16 addr = 0x00; addr <= 0x17; ++addr)
     addrUsed = addrUsed || myCartDebug.myReserved.IOReadWrite[addr];
 
@@ -391,7 +391,7 @@ string CartDisassemblyWriter::save(string path)
       if(myCartDebug.myReserved.TIARead[addr])
         out << std::format("{:<16}= ${}  ; (R)\n",
                            CartDebug::ourTIAMnemonicR[addr], Base::hex2(addr));
-      else if (myCartDebug.mySystem.getAccessFlags(addr) & Device::DATA)
+      else if (Bitmask::Enum{myCartDebug.mySystem.getAccessFlags(addr)}.any_of(Device::DATA))
         out << std::format(";{:<15}= ${}  ; (Ri)\n",
                            CartDebug::ourTIAMnemonicR[addr], Base::hex2(addr));
     out << "\n";
@@ -401,7 +401,7 @@ string CartDisassemblyWriter::save(string path)
       if(myCartDebug.myReserved.TIAWrite[addr])
         out << std::format("{:<16}= ${}  ; (W)\n",
                            CartDebug::ourTIAMnemonicW[addr], Base::hex2(addr));
-      else if (myCartDebug.mySystem.getAccessFlags(addr) & Device::WRITE)
+      else if (Bitmask::Enum{myCartDebug.mySystem.getAccessFlags(addr)}.any_of(Device::WRITE))
         out << std::format(";{:<15}= ${}  ; (Wi)\n",
                            CartDebug::ourTIAMnemonicW[addr], Base::hex2(addr));
     out << "\n";
@@ -416,9 +416,8 @@ string CartDisassemblyWriter::save(string path)
   addrUsed = false;
   for(uInt16 addr = 0x80; addr <= 0xFF; ++addr)
     addrUsed = addrUsed || myCartDebug.myReserved.ZPRAM[addr-0x80]
-      || (myCartDebug.mySystem.getAccessFlags(addr) & (Device::DATA | Device::WRITE))
-      || (myCartDebug.mySystem.getAccessFlags(addr|0x100U) &
-         (Device::DATA | Device::WRITE));
+      || Bitmask::Enum{myCartDebug.mySystem.getAccessFlags(addr)}.any_of(Device::DATA | Device::WRITE)
+      || Bitmask::Enum{myCartDebug.mySystem.getAccessFlags(addr|0x100U)}.any_of(Device::DATA | Device::WRITE);
   if(addrUsed)
   {
     bool addLine = false;
@@ -428,11 +427,15 @@ string CartDisassemblyWriter::save(string path)
 
     for(uInt16 addr = 0x80; addr <= 0xFF; ++addr)
     {
-      const bool ramUsed = (myCartDebug.mySystem.getAccessFlags(addr) &
-                           (Device::DATA | Device::WRITE));
-      const bool codeUsed = (myCartDebug.mySystem.getAccessFlags(addr) & Device::CODE);
-      const bool stackUsed = (myCartDebug.mySystem.getAccessFlags(addr|0x100U) &
-                             (Device::DATA | Device::WRITE));
+      const bool ramUsed =
+        Bitmask::Enum{myCartDebug.mySystem.getAccessFlags(addr)}
+          .any_of(Device::DATA | Device::WRITE);
+      const bool codeUsed =
+        Bitmask::Enum{myCartDebug.mySystem.getAccessFlags(addr)}
+          .any_of(Device::CODE);
+      const bool stackUsed =
+        Bitmask::Enum{myCartDebug.mySystem.getAccessFlags(addr|0x100U)}
+          .any_of(Device::DATA | Device::WRITE);
 
       if(myCartDebug.myReserved.ZPRAM[addr - 0x80] &&
          !myCartDebug.myUserLabels.contains(addr))
