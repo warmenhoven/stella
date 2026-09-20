@@ -214,7 +214,7 @@ void RomImageWidget::parseProperties(const FSNode& node, bool full)
 
   // Update maximum load time
   myMaxLoadTime = std::min(
-    static_cast<uInt64>(500ULL / timeFactor),
+    U64(500ULL / timeFactor),
     std::max(myMaxLoadTime, TimerManager::getTicks() / 1000 - startTime));
 }
 
@@ -391,8 +391,8 @@ void RomImageWidget::zoomSurfaces(bool zoomed, bool force)
     {
       // Scale surface to available widget area
       const float scale = std::min(
-        static_cast<float>(_w - 2) / mySrcRect.w(),
-        static_cast<float>(myImageHeight - 1) / mySrcRect.h()) * scaleDpi;
+        FLT(_w - 2) / mySrcRect.w(),
+        FLT(myImageHeight - 1) / mySrcRect.h()) * scaleDpi;
       const uInt32 w = mySrcRect.w() * scale;
       const uInt32 h = mySrcRect.h() * scale;
 
@@ -411,9 +411,8 @@ void RomImageWidget::zoomSurfaces(bool zoomed, bool force)
       const Int32 lh = maxSize.h - b * 2;
       const Int32 iw = mySrcRect.w() * scaleDpi;
       const Int32 ih = mySrcRect.h() * scaleDpi;
-      const float zoom = std::min({1.F, // do not zoom beyond original size
-                                   static_cast<float>(lw) / iw,
-                                   static_cast<float>(lh) / ih});
+      // do not zoom beyond original size
+      const float zoom = std::min({1.F, FLT(lw) / iw, FLT(lh) / ih});
       const Int32 w = iw * zoom;
       const Int32 h = ih * zoom;
 
@@ -465,11 +464,11 @@ void RomImageWidget::positionSurfaces()
     const Int32 lh = maxSize.h - b * 2;
     // Position at right top
     const Int32 x = std::min(
-      static_cast<Int32>(s_dst.x()) + (_x + zx) * scaleDpi - w / 2 + b,
+      I32(s_dst.x()) + (_x + zx) * scaleDpi - w / 2 + b,
       lw - w + b);
     const Int32 y = std::min(
       lh - h + b,
-      std::max(static_cast<Int32>(s_dst.y()) + (zy + _y) * scaleDpi - h / 2 + b, b));
+      std::max(I32(s_dst.y()) + (zy + _y) * scaleDpi - h / 2 + b, b));
 
     mySurface->setDstPos(x, y);
     myFrameSurface->setDstPos(x - b, y - b);

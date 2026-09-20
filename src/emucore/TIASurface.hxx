@@ -169,7 +169,7 @@ class TIASurface
       Enable/disable/query NTSC filtering effects.
     */
     void enableNTSC(bool enable);
-    bool ntscEnabled() const { return static_cast<uInt8>(myFilter) & 0x10U; }
+    bool ntscEnabled() const { return U8(myFilter) & 0x10U; }
     string effectsInfo() const;
 
     /**
@@ -248,11 +248,9 @@ class TIASurface
     // Phosphor blend
     int myPBlend{0};
 
-    std::array<uInt32, static_cast<size_t>
-      (AtariNTSC::outWidth(TIAConstants::frameBufferWidth) *
+    std::array<uInt32, SZT(AtariNTSC::outWidth(TIAConstants::frameBufferWidth) *
       TIAConstants::frameBufferHeight)> myRGBFramebuffer0{};
-    std::array<uInt32, static_cast<size_t>
-      (AtariNTSC::outWidth(TIAConstants::frameBufferWidth) *
+    std::array<uInt32, SZT(AtariNTSC::outWidth(TIAConstants::frameBufferWidth) *
         TIAConstants::frameBufferHeight)> myRGBFramebuffer1{};
     uInt32* myRGBFramebuffer{myRGBFramebuffer0.data()};
     uInt32* myPrevRGBFramebuffer{myRGBFramebuffer1.data()};

@@ -71,13 +71,12 @@ CartridgeBUS::CartridgeBUS(ByteSpan image, string_view md5,
     myThumbEmulator = std::make_unique<Thumbulator>(
       reinterpret_cast<uInt16*>(myImage.data()),
       reinterpret_cast<uInt16*>(myRAM.data()),
-      static_cast<uInt32>(32_KB),
+      U32(32_KB),
       0x00000C00,
       0x00000C08,
       0x40001FFC,
       devSettings ? settings.getBool("dev.thumb.trapfatal") : false,
-      devSettings ? static_cast<double>(
-          settings.getFloat("dev.thumb.cyclefactor")) : 1.0,
+      devSettings ? DBL(settings.getFloat("dev.thumb.cyclefactor")) : 1.0,
       Thumbulator::ConfigureFor::BUS,
       this);
   }
@@ -96,13 +95,12 @@ CartridgeBUS::CartridgeBUS(ByteSpan image, string_view md5,
     myThumbEmulator = std::make_unique<Thumbulator>(
       reinterpret_cast<uInt16*>(myImage.data()),
       reinterpret_cast<uInt16*>(myRAM.data()),
-      static_cast<uInt32>(32_KB),
+      U32(32_KB),
       0x00000800,
       0x00000808,
       0x40001FFC,
       devSettings ? settings.getBool("dev.thumb.trapfatal") : false,
-      devSettings ? static_cast<double>(
-          settings.getFloat("dev.thumb.cyclefactor")) : 1.0,
+      devSettings ? DBL(settings.getFloat("dev.thumb.cyclefactor")) : 1.0,
       Thumbulator::ConfigureFor::BUS,
       this);
   }
@@ -185,13 +183,13 @@ void CartridgeBUS::install(System& system)
 inline void CartridgeBUS::updateMusicModeDataFetchers()
 {
   // Calculate the number of cycles since the last update
-  const auto cycles = static_cast<uInt32>(mySystem->cycles() - myAudioCycles);
+  const auto cycles = U32(mySystem->cycles() - myAudioCycles);
   myAudioCycles = mySystem->cycles();
 
   // Calculate the number of BUS OSC clocks since the last update
   const double clocks = ((20000.0 * cycles) / myClockRate) + myFractionalClocks;
-  const auto wholeClocks = static_cast<uInt32>(clocks);
-  myFractionalClocks = clocks - static_cast<double>(wholeClocks);
+  const auto wholeClocks = U32(clocks);
+  myFractionalClocks = clocks - DBL(wholeClocks);
 
   // Let's update counters and flags of the music mode data fetchers
   if(wholeClocks > 0)
@@ -209,7 +207,7 @@ inline void CartridgeBUS::callFunction(uInt8 value)
               // time for Stella as ARM code "runs in zero 6507 cycles".
     case 255: // call without IRQ driven audio
       try {
-        auto cycles = static_cast<uInt32>(mySystem->cycles() - myARMCycles);
+        auto cycles = U32(mySystem->cycles() - myARMCycles);
 
         myARMCycles = mySystem->cycles();
         myThumbEmulator->run(cycles, value == 254);
@@ -338,7 +336,7 @@ uInt8 CartridgeBUS::peek(uInt16 address)
               // can be modified during runtime.
               const uInt32 i = waveformSample(0) + waveformSample(1) + waveformSample(2);
 
-              result = static_cast<uInt8>(i);
+              result = U8(i);
               break;
             }
 
@@ -386,7 +384,7 @@ uInt8 CartridgeBUS::peek(uInt16 address)
             // can be modified during runtime.
             const uInt32 i = waveformSample(0) + waveformSample(1) + waveformSample(2);
 
-            peekvalue = static_cast<uInt8>(i);
+            peekvalue = U8(i);
           }
           break;
 
@@ -1052,7 +1050,7 @@ uInt8 CartridgeBUS::waveformSample(uInt8 index) const
   // myDisplayImage rather than fabricate a value; the shift is also
   // clamped since 32+ is UB.
   const uInt8 shift = std::min<uInt8>(myMusicWaveformSize[index], 31);
-  const uInt64 idx = static_cast<uInt64>(getWaveform(index)) + (myMusicCounters[index] >> shift);
+  const uInt64 idx = U64(getWaveform(index)) + (myMusicCounters[index] >> shift);
   return myDisplayImage[idx % myDisplayImage.size()];
 }
 

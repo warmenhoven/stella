@@ -74,7 +74,7 @@ class PlusROMRequest {
       : myState{State::created},
         myDestination{destination},
         myId{id},
-        myRequestSize{static_cast<uInt8>(request.size())}
+        myRequestSize{U8(request.size())}
     {
       std::ranges::copy(request, myRequest.begin());
     }
@@ -209,7 +209,7 @@ bool PlusROM::initialize(ByteSpan image)
 
   // Path stored first, 0-terminated
   const auto pathNull = std::ranges::find(image.subspan(i), uInt8{0});
-  const size_t pathLen = static_cast<size_t>(pathNull - (image.begin() + i));
+  const size_t pathLen = SZT(pathNull - (image.begin() + i));
   const string path(reinterpret_cast<const char*>(image.data() + i), pathLen);
   i += pathLen;
 
@@ -221,7 +221,7 @@ bool PlusROM::initialize(ByteSpan image)
 
   // Host stored next, 0-terminated
   const auto hostNull = std::ranges::find(image.subspan(i), uInt8{0});
-  const size_t hostLen = static_cast<size_t>(hostNull - (image.begin() + i));
+  const size_t hostLen = SZT(hostNull - (image.begin() + i));
   const string host(reinterpret_cast<const char*>(image.data() + i), hostLen);
   i += hostLen;
 
@@ -511,7 +511,7 @@ ByteArray PlusROM::getReceive() const
 {
   const uInt8 rxReadPos = myRxReadPos != myRxWritePos ? myRxReadPos : myLastRxReadPos;
   ByteArray arr;
-  arr.reserve(static_cast<uInt8>(myRxWritePos - rxReadPos));  // wrapping subtraction gives correct count
+  arr.reserve(U8(myRxWritePos - rxReadPos));  // wrapping subtraction gives correct count
 
   // uInt8 index wraps past 255 back to 0 intentionally
   for(uInt8 i = rxReadPos; i != myRxWritePos; ++i)

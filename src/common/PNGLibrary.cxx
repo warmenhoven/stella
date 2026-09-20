@@ -284,7 +284,7 @@ void PNGLibrary::saveImage(string_view filename, const FBSurface& surface,
 void PNGLibrary::updateTime(uInt64 time)
 {
   if(mySnapInterval > 0 && (++mySnapCounter) % mySnapInterval == 0)
-    takeSnapshot(static_cast<uInt32>(time >> 10U));  // not quite milliseconds, but close enough
+    takeSnapshot(U32(time >> 10U));  // not quite milliseconds, but close enough
 }
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -302,7 +302,7 @@ void PNGLibrary::toggleContinuousSnapshots(bool perFrame)
     {
       interval = myOSystem.settings().getInt("ssinterval");
       msg = std::format("Enabling snapshots in {} second intervals", interval);
-      interval *= static_cast<uInt32>(myOSystem.frameRate());
+      interval *= U32(myOSystem.frameRate());
     }
     myOSystem.frameBuffer().showTextMessage(msg);
     setContinuousSnapInterval(interval);
@@ -343,7 +343,7 @@ Common::Rect PNGLibrary::croppedRect(const FBSurface& surface,
     return (pixel & 0x00FFFFFFU) == 0;
   };
   const auto rowIsBlack = [&](uInt32 y, uInt32 x0, uInt32 x1) {
-    const uInt32* row = base + static_cast<size_t>(y) * pitch;
+    const uInt32* row = base + SZT(y) * pitch;
     for(uInt32 x = x0; x < x1; ++x)
       if(!isBlack(row[x]))
         return false;
@@ -351,7 +351,7 @@ Common::Rect PNGLibrary::croppedRect(const FBSurface& surface,
   };
   const auto colIsBlack = [&](uInt32 x, uInt32 y0, uInt32 y1) {
     for(uInt32 y = y0; y < y1; ++y)
-      if(!isBlack(base[static_cast<size_t>(y) * pitch + x]))
+      if(!isBlack(base[SZT(y) * pitch + x]))
         return false;
     return true;
   };
@@ -486,7 +486,7 @@ void PNGLibrary::writeMetaData(png_structp png_ptr, png_infop info_ptr,
     text_ptr[i].compression = PNG_TEXT_COMPRESSION_NONE;
     text_ptr[i].text_length = 0;
   }
-  png_set_text(png_ptr, info_ptr, text_ptr.data(), static_cast<int>(numMetaData));
+  png_set_text(png_ptr, info_ptr, text_ptr.data(), I32(numMetaData));
 }
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -

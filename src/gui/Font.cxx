@@ -40,8 +40,7 @@ GlyphSet::GlyphSet(const FontDesc& desc)
     return;
 
   myGlyphs.resize(desc.size);
-  myMask.reserve(static_cast<size_t>(desc.size) * bytesPerRow(desc.fbbw) *
-                 desc.fbbh);
+  myMask.reserve(SZT(desc.size) * bytesPerRow(desc.fbbw) * desc.fbbh);
 
   for(uInt32 i = 0; i < desc.size; ++i)
   {
@@ -52,11 +51,11 @@ GlyphSet::GlyphSet(const FontDesc& desc)
     const int bby = desc.bbx ? desc.bbx[i].y : desc.fbby;  // NOLINT(bugprone-signed-char-misuse,cert-str34-c)
 
     GlyphInfo& info = myGlyphs[i];
-    info.offset = static_cast<uInt32>(myMask.size());
-    info.w = static_cast<uInt16>(bbw);
-    info.h = static_cast<uInt16>(bbh);
-    info.dx = static_cast<Int16>(bbx);
-    info.dy = static_cast<Int16>(desc.ascent - bby - bbh);
+    info.offset = U32(myMask.size());
+    info.w = U16(bbw);
+    info.h = U16(bbh);
+    info.dx = I16(bbx);
+    info.dy = I16(desc.ascent - bby - bbh);
 
     // Without an encode table the glyphs are fixed-size cells, one after
     // the other
@@ -71,7 +70,7 @@ GlyphSet::GlyphSet(const FontDesc& desc)
     const uInt32 stride = bytesPerRow(bbw);
     const size_t base = myMask.size();
 
-    myMask.resize(base + (static_cast<size_t>(stride) * bbh));
+    myMask.resize(base + (SZT(stride) * bbh));
 
     for(uInt32 y = 0; y < bbh; ++y)
       for(uInt32 x = 0; x < bbw; ++x)
@@ -79,8 +78,7 @@ GlyphSet::GlyphSet(const FontDesc& desc)
         const uInt16 word = bits[(y * words) + (x >> 4U)];
 
         if(word & (0x8000U >> (x & 15U)))
-          myMask[base + (static_cast<size_t>(y) * stride) + (x >> 3U)] |=
-              0x80U >> (x & 7U);
+          myMask[base + (SZT(y) * stride) + (x >> 3U)] |= 0x80U >> (x & 7U);
       }
   }
 }
@@ -94,7 +92,7 @@ Glyph GlyphSet::glyph(uInt8 chr) const
   {
     if(chr == ' ')
       return {};
-    chr = static_cast<uInt8>(myDefaultChar);
+    chr = U8(myDefaultChar);
   }
 
   const int idx = chr - myFirstChar;
@@ -164,7 +162,7 @@ int Font::getStringWidth(string_view str) const
 {
   // If no width table is specified, use the maximum width
   if(!myFontDesc.width)
-    return static_cast<int>(myFontDesc.maxwidth * str.size());
+    return I32(myFontDesc.maxwidth * str.size());
 
   int width = 0;
   for(const char c: str)

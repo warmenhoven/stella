@@ -86,7 +86,7 @@ void TiaOutputWidget::saveSnapshot(int execDepth, string_view execPrefix,
     if(execDepth > 0 && !execPrefix.empty())
       sspath += std::format("{}_", execPrefix);
     sspath += std::format("{:08X}",
-      static_cast<uInt32>(TimerManager::getTicks() / 1000));
+      U32(TimerManager::getTicks() / 1000));
   }
   else
   {
@@ -321,18 +321,17 @@ void TiaOutputWidget::updateSurface()
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 void TiaOutputWidget::recalcRects()
 {
-  const int srcW = static_cast<int>(myTiaSurface->srcRect().w()),
-            srcH = static_cast<int>(myTiaSurface->srcRect().h());
+  const int srcW = I32(myTiaSurface->srcRect().w()),
+            srcH = I32(myTiaSurface->srcRect().h());
   if(srcW <= 0 || srcH <= 0)
     return;
 
   // Fit the image into the widget area (inside a 1px border), preserving the
   // aspect ratio already baked into the horizontally doubled source
   const int availW = _w - 2, availH = _h - 2;
-  const float scale = std::min(static_cast<float>(availW) / srcW,
-                               static_cast<float>(availH) / srcH);
-  myImgW = static_cast<int>(srcW * scale);
-  myImgH = static_cast<int>(srcH * scale);
+  const float scale = std::min(FLT(availW) / srcW, FLT(availH) / srcH);
+  myImgW = I32(srcW * scale);
+  myImgH = I32(srcH * scale);
   // Anchor at the widget's top-left (matching the original TIA image layout)
   myImgX = 1;
   myImgY = 1;
@@ -380,10 +379,10 @@ void TiaOutputWidget::drawMarkers()
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 bool TiaOutputWidget::widgetToImage(int lx, int ly, int& col, int& row) const
 {
-  const int width = static_cast<int>(instance().console().tia().width());
+  const int width = I32(instance().console().tia().width());
   uInt32 h = instance().console().tia().height();
   h = std::min<uInt32>(h, FrameManager::Metrics::baseHeightPAL);
-  const int height = static_cast<int>(h);
+  const int height = I32(h);
 
   if(myImgW <= 0 || myImgH <= 0)
   {
@@ -391,13 +390,13 @@ bool TiaOutputWidget::widgetToImage(int lx, int ly, int& col, int& row) const
     return false;
   }
 
-  const float fx = (lx - myImgX) / static_cast<float>(myImgW);
-  const float fy = (ly - myImgY) / static_cast<float>(myImgH);
+  const float fx = (lx - myImgX) / FLT(myImgW);
+  const float fy = (ly - myImgY) / FLT(myImgH);
   const bool inside = fx >= 0.F && fx < 1.F && fy >= 0.F && fy < 1.F;
 
   // Native TIA column / displayed row, clamped so callers can act on a point
   // in the (letterbox) border too
-  col = std::clamp(static_cast<int>(fx * width), 0, width - 1);
-  row = std::clamp(static_cast<int>(fy * height), 0, height - 1);
+  col = std::clamp(I32(fx * width), 0, width - 1);
+  row = std::clamp(I32(fy * height), 0, height - 1);
   return inside;
 }

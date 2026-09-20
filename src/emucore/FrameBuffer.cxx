@@ -299,8 +299,7 @@ FBInitStatus FrameBuffer::createDisplay(string_view title, BufferType type,
     myBezel->load(); // make sure we have the correct bezel size
 
     // Determine possible TIA windowed zoom levels
-    const auto currentTIAZoom =
-      static_cast<double>(myOSystem.settings().getFloat("tia.zoom"));
+    const auto currentTIAZoom = DBL(myOSystem.settings().getFloat("tia.zoom"));
     myOSystem.settings().setValue("tia.zoom",
       BSPF::clamp(currentTIAZoom, supportedTIAMinZoom(), supportedTIAMaxZoom()));
   }
@@ -589,7 +588,7 @@ void FrameBuffer::update(UpdateMode mode)
         success = r.unwindStates(1);
 
         // Determine playback speed, the faster the more the states are apart
-        const Int64 frameCycles = static_cast<Int64>(76) * std::max<Int32>(myOSystem.console().tia().scanlinesLastFrame(), 240);
+        const Int64 frameCycles = I64(76) * std::max<Int32>(myOSystem.console().tia().scanlinesLastFrame(), 240);
         const Int64 intervalFrames = r.getInterval() / frameCycles;
         const Int64 stateFrames = (r.getCurrentCycles() - prevCycles) / frameCycles;
 
@@ -1172,10 +1171,10 @@ void FrameBuffer::toggleFullscreen(bool toggle)
           const string msg = isFullscreen
             ? std::format("Fullscreen {} ({} Hz, Zoom {}%)",
                 state_str, myBackend->refreshRate(),
-                static_cast<int>(round(myWindow.vidMode.zoom * 100)))
+                I32(round(myWindow.vidMode.zoom * 100)))
             : std::format("Fullscreen {} (Zoom {}%)",
                 state_str,
-                static_cast<int>(round(myWindow.vidMode.zoom * 100)));
+                I32(round(myWindow.vidMode.zoom * 100)));
           showTextMessage(msg);
         }
         else
@@ -1246,7 +1245,7 @@ void FrameBuffer::switchVideoMode(int direction)
   if(!fullScreen())
   {
     // Windowed TIA modes support variable zoom levels
-    auto zoom = static_cast<double>(myOSystem.settings().getFloat("tia.zoom"));
+    auto zoom = DBL(myOSystem.settings().getFloat("tia.zoom"));
     if(direction == +1)       zoom += ZOOM_STEPS;
     else if(direction == -1)  zoom -= ZOOM_STEPS;
 
@@ -1272,9 +1271,9 @@ void FrameBuffer::switchVideoMode(int direction)
       showTextMessage(myWindow.vidMode.description);
     else
       showGaugeMessage("Zoom", myWindow.vidMode.description,
-                       static_cast<float>(myWindow.vidMode.zoom),
-                       static_cast<float>(supportedTIAMinZoom()),
-                       static_cast<float>(supportedTIAMaxZoom()));
+                       FLT(myWindow.vidMode.zoom),
+                       FLT(supportedTIAMinZoom()),
+                       FLT(supportedTIAMaxZoom()));
   }
 }
 
@@ -1302,8 +1301,7 @@ void FrameBuffer::toggleBezel(bool toggle)
       else
       {
         // Determine possible TIA windowed zoom levels
-        const auto currentTIAZoom =
-          static_cast<double>(myOSystem.settings().getFloat("tia.zoom"));
+        const auto currentTIAZoom = DBL(myOSystem.settings().getFloat("tia.zoom"));
         myOSystem.settings().setValue("tia.zoom",
           BSPF::clamp(currentTIAZoom, supportedTIAMinZoom(), supportedTIAMaxZoom()));
 
@@ -1405,8 +1403,8 @@ double FrameBuffer::maxWindowZoom() const
   for(;;)
   {
     // Figure out the zoomed size of the window (incl. the bezel)
-    const uInt32 width  = static_cast<double>(TIAConstants::viewableWidth)  * myBezel->ratioW() * multiplier;
-    const uInt32 height = static_cast<double>(TIAConstants::viewableHeight) * myBezel->ratioH() * multiplier;
+    const uInt32 width  = DBL(TIAConstants::viewableWidth)  * myBezel->ratioW() * multiplier;
+    const uInt32 height = DBL(TIAConstants::viewableHeight) * myBezel->ratioH() * multiplier;
 
     if((width > myAbsDesktopSize.at(display).w) ||
        (height > myAbsDesktopSize.at(display).h))

@@ -332,7 +332,7 @@ namespace  // anonymous namespace, to keep these functions private
     const string& fullPath = firstTape.getPath();
     const string dirPath = fullPath.substr(0, fullPath.size() - fileName.size());
 
-    int seqEnd = static_cast<int>(stem.size()) - 1;
+    int seqEnd = I32(stem.size()) - 1;
     while(seqEnd >= 0)
     {
       if(!std::isdigit(static_cast<unsigned char>(stem[seqEnd])))
@@ -452,7 +452,7 @@ namespace  // anonymous namespace, to keep these functions private
                            "sample rate mismatch)", companion.getName()));
         break;
       }
-      const size_t silenceSamples = static_cast<size_t>(sampleRate) * 2;
+      const size_t silenceSamples = SZT(sampleRate) * 2;
       pcmData.reserve(pcmData.size() + silenceSamples + nextPCM.size());
       pcmData.insert(pcmData.end(), silenceSamples, 1.F);
       tapeStarts.push_back(pcmData.size());  // this tape begins after the silence
@@ -461,8 +461,7 @@ namespace  // anonymous namespace, to keep these functions private
                          tapeNum++, companion.getName(), nextPCM.size(), nextRate));
     }
     record(std::format("total PCM stream: {} samples ({:.1f}s)",
-                       pcmData.size(),
-                       static_cast<double>(pcmData.size()) / sampleRate));
+                       pcmData.size(), DBL(pcmData.size()) / sampleRate));
 
     auto cart = std::make_unique<CartridgeAR>(
       ByteSpan{biosData}, std::move(pcmData), sampleRate, std::move(tapeStarts),

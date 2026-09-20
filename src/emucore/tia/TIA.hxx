@@ -364,14 +364,14 @@ class TIA : public Device
       Answers the system cycles from the start of the current frame.
     */
     uInt32 frameCycles() const {
-      return static_cast<uInt32>(mySystem->cycles() - myCyclesAtFrameStart);
+      return U32(mySystem->cycles() - myCyclesAtFrameStart);
     }
 
     /**
       Answers the system cycles used by WSYNC from the start of the current frame.
     */
     uInt32 frameWSyncCycles() const {
-      return static_cast<uInt32>(myFrameWsyncCycles);
+      return U32(myFrameWsyncCycles);
     }
   #endif  // DEBUGGER_SUPPORT
 
@@ -903,16 +903,16 @@ class TIA : public Device
     //
     // Values are 8-bit TIA color indices (palette mapping happens later
     // in TIASurface).
-    std::array<uInt8, static_cast<size_t>(TIAConstants::H_PIXEL * TIAConstants::frameBufferHeight)> myFramebuffer{};
+    std::array<uInt8, SZT(TIAConstants::H_PIXEL * TIAConstants::frameBufferHeight)> myFramebuffer{};
 
-    std::array<uInt8, static_cast<size_t>(TIAConstants::H_PIXEL * TIAConstants::frameBufferHeight)> myBackBuffer{};
+    std::array<uInt8, SZT(TIAConstants::H_PIXEL * TIAConstants::frameBufferHeight)> myBackBuffer{};
 
     // Pointer to the first pixel of the current scanline in myBackBuffer.
     // Precomputed once per line in nextLine() so renderPixel() avoids a
     // y*H_PIXEL multiply on every one of the 160 visible clocks per scanline.
     uInt8* myCurrentRowPtr{nullptr};
 
-    std::array<uInt8, static_cast<size_t>(TIAConstants::H_PIXEL * TIAConstants::frameBufferHeight)> myFrontBuffer{};
+    std::array<uInt8, SZT(TIAConstants::H_PIXEL * TIAConstants::frameBufferHeight)> myFrontBuffer{};
 
     // We snapshot frame statistics when the back buffer is copied to the front buffer
     // and when the front buffer is copied to the frame buffer
@@ -956,13 +956,12 @@ class TIA : public Device
     /**
      * Single 15-bit accumulator that collapses the 15 per-pair collision
      * flip-flops of the real chip into one OR-accumulated register. Each
-     * bit corresponds to a unique object pair via the encoding in the
-     * CollisionMask enum in TIA.cxx; see TIA::updateCollision for how a
-     * single AND across all six objects sets every relevant pair bit, and
-     * TIA::collCX* for how individual pair bits are extracted on read.
-     * Cleared by CXCLR.
+     * bit corresponds to a unique object pair via the CollisionMask encoding
+     * in TIAConstants.hxx; see TIA::updateCollision for how a single AND
+     * across all six objects sets every relevant pair bit, and TIA::collCX*
+     * for how individual pair bits are extracted on read. Cleared by CXCLR.
      */
-    uInt32 myCollisionMask{0};
+    CollisionMask myCollisionMask{CollisionMask::NONE};
 
     /**
      * The movement clock counts the extra ticks sent to the objects during
