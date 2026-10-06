@@ -257,6 +257,14 @@ class FBBackend
     virtual void endLiveResize() { }
 
     /**
+      Force this backend's vsync on or off, overriding the 'vsync' setting
+      and beginLiveResize()/endLiveResize().  For a window that redraws every
+      emulation frame: presenting it must never block on its own monitor's
+      refresh, which could stall the primary window's pacing.
+    */
+    virtual void setVSyncEnabled(bool enable) { }
+
+    /**
       The platform window ID of this backend's window, or 0 if no window
       exists.  Used to route window-specific events (mouse, keyboard, close,
       resize) to the FrameBuffer that owns the targeted window when more than
