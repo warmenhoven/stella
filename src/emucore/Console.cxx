@@ -143,10 +143,8 @@ Console::Console(OSystem& osystem, unique_ptr<Cartridge>& cart,
   // Construct the system and components
   mySystem = std::make_unique<System>(myOSystem.random(), *my6502, *myRiot, *myTIA, *myCart);
 
-  // The real controllers for this console will be added later
-  // For now, we just add dummy joystick controllers, since autodetection
-  // runs the emulation for a while, and this may interfere with 'smart'
-  // controllers such as the AVox and SaveKey
+  // Placeholders until setControllers() adds the real controllers, which
+  // autodetection needs (smart controllers check System::autodetectMode())
   myLeftControl  = std::make_unique<Joystick>(Controller::Jack::Left, myEvent, *mySystem);
   myRightControl = std::make_unique<Joystick>(Controller::Jack::Right, myEvent, *mySystem);
 
@@ -309,7 +307,10 @@ void Console::redetectFrameLayout()
 
   save(s);
   autodetectFrameLayout(false);
-  load(s);
+  // Reading and writing share one position, so read back from the start
+  s.rewind();
+  if(!load(s))
+    cerr << "ERROR: Console::redetectFrameLayout\n";
 
   initializeAudio();
 }
